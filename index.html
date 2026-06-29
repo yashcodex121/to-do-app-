@@ -2,9 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>✨ Planner Pro</title>
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#1a1a2e" />
@@ -34,7 +32,6 @@
             --text3: rgba(255, 255, 255, 0.4);
             --border: rgba(255, 255, 255, 0.08);
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --glass: rgba(255, 255, 255, 0.03);
             --radius: 16px;
             --radius-sm: 12px;
             --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -63,8 +60,6 @@
             position: relative;
             padding: 0;
             margin: 0;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Background Effects */
@@ -75,7 +70,6 @@
             pointer-events: none;
             overflow: hidden;
         }
-
         .gradient-orb {
             position: absolute;
             border-radius: 50%;
@@ -83,7 +77,6 @@
             pointer-events: none;
             animation: orbFloat 20s ease-in-out infinite alternate;
         }
-
         .orb1 {
             width: 300px;
             height: 300px;
@@ -108,7 +101,6 @@
             transform: translate(-50%, -50%);
             animation-delay: -10s;
         }
-
         @keyframes orbFloat {
             0% {
                 transform: translate(0, 0) scale(1);
@@ -139,7 +131,6 @@
             animation: floatUp linear infinite;
             opacity: 0.15;
         }
-
         @keyframes floatUp {
             0% {
                 transform: translateY(100vh) rotate(0deg);
@@ -157,7 +148,6 @@
             }
         }
 
-        /* App Container - Mobile First */
         .app-container {
             max-width: 430px;
             margin: 0 auto;
@@ -169,9 +159,7 @@
             padding-top: var(--safe-top);
         }
 
-        /* ============================================
-                   LOGIN SCREEN
-                   ============================================ */
+        /* ========== LOGIN ========== */
         #loginScreen {
             position: fixed;
             inset: 0;
@@ -200,11 +188,9 @@
             max-width: 380px;
             box-shadow: var(--shadow);
             text-align: center;
-            animation: loginPulse 3s ease-in-out infinite;
             position: relative;
             overflow: hidden;
         }
-
         .login-box::before {
             content: '';
             position: absolute;
@@ -216,7 +202,6 @@
             animation: gradientMove 6s ease infinite;
             opacity: 0.2;
         }
-
         @keyframes gradientMove {
             0%,
             100% {
@@ -224,15 +209,6 @@
             }
             50% {
                 background-position: 100% 50%;
-            }
-        }
-        @keyframes loginPulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.003);
             }
         }
 
@@ -251,50 +227,52 @@
         }
         .login-box .sub {
             color: var(--text2);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             font-size: 0.85rem;
         }
 
-        .login-box .google-btn {
-            width: 100%;
-            padding: 13px;
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .auth-tabs button {
+            flex: 1;
+            padding: 10px;
             background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
-            color: var(--text);
-            font-size: 0.95rem;
+            color: var(--text2);
             font-weight: 600;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 14px;
         }
-        .login-box .google-btn:hover {
-            background: var(--surface3);
-            transform: translateY(-1px);
+        .auth-tabs button.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border-color: var(--primary);
         }
-        .login-box .google-btn svg {
-            width: 20px;
-            height: 20px;
+        .auth-tabs button:active {
+            transform: scale(0.95);
         }
 
-        .login-box .divider {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin: 16px 0;
-            color: var(--text3);
-            font-size: 0.75rem;
+        .auth-form {
+            display: none;
+            animation: fadeUp 0.3s ease;
         }
-        .login-box .divider::before,
-        .login-box .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
+        .auth-form.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-box input {
@@ -330,12 +308,22 @@
             transition: var(--transition);
             margin-top: 4px;
         }
-        .login-box .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35);
-        }
         .login-box .login-btn:active {
             transform: scale(0.97);
+        }
+
+        .auth-msg {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+        }
+        .auth-msg.error {
+            color: #f87171;
+            display: block;
+        }
+        .auth-msg.success {
+            color: #4ade80;
+            display: block;
         }
 
         .login-box .footer-text {
@@ -344,9 +332,7 @@
             color: var(--text3);
         }
 
-        /* ============================================
-                   HEADER
-                   ============================================ */
+        /* ========== HEADER ========== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -356,13 +342,11 @@
             margin: 8px 0 16px 0;
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             animation: slideDown 0.5s ease;
         }
-
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -398,12 +382,6 @@
             color: var(--text2);
             border: 1px solid var(--border);
         }
-        .header-left .user-badge img {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-        }
         .header-left .user-badge .name {
             max-width: 60px;
             overflow: hidden;
@@ -438,9 +416,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .stat-pill .icon {
-            margin-right: 2px;
-        }
 
         .header .logout-btn {
             background: var(--surface2);
@@ -468,13 +443,8 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        .header .theme-btn:hover {
-            background: var(--surface3);
-        }
 
-        /* ============================================
-                   NAV TABS - Bottom Navigation
-                   ============================================ */
+        /* ========== BOTTOM NAV ========== */
         .nav-tabs {
             position: fixed;
             bottom: 0;
@@ -493,10 +463,9 @@
             max-width: 430px;
             margin: 0 auto;
         }
-
         .nav-tabs button {
             flex: 1;
-            padding: 8px 4px;
+            padding: 6px 4px;
             background: transparent;
             border: none;
             border-radius: var(--radius-sm);
@@ -510,7 +479,6 @@
             align-items: center;
             gap: 2px;
             position: relative;
-            overflow: hidden;
         }
         .nav-tabs button .nav-icon {
             font-size: 1.4rem;
@@ -531,16 +499,11 @@
             border-radius: var(--radius-sm);
             opacity: 0.15;
         }
-        .nav-tabs button.active .nav-icon {
-            transform: scale(1.1);
-        }
         .nav-tabs button:active {
             transform: scale(0.92);
         }
 
-        /* ============================================
-                   PAGES
-                   ============================================ */
+        /* ========== PAGES ========== */
         .page {
             display: none;
             animation: fadeUp 0.4s ease;
@@ -550,24 +513,10 @@
             display: block;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ============================================
-                   HOME PAGE
-                   ============================================ */
+        /* ========== HOME ========== */
         .welcome-card {
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 20px 20px 16px;
@@ -603,16 +552,6 @@
             color: var(--text2);
             border-left: 3px solid var(--primary);
             position: relative;
-            animation: quoteGlow 4s ease-in-out infinite;
-        }
-        @keyframes quoteGlow {
-            0%,
-            100% {
-                border-left-color: var(--primary);
-            }
-            50% {
-                border-left-color: var(--secondary);
-            }
         }
 
         .home-grid {
@@ -624,15 +563,12 @@
         .home-card {
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             padding: 14px 10px;
             text-align: center;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
         }
         .home-card:active {
             transform: scale(0.95);
@@ -654,22 +590,18 @@
             font-size: 0.6rem;
             margin-top: 2px;
             font-weight: 500;
-            letter-spacing: 0.2px;
         }
         .home-card .small-num {
             font-size: 1rem;
         }
 
-        /* ============================================
-                   PLANNER PAGE
-                   ============================================ */
+        /* ========== PLANNER ========== */
         .date-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             padding: 8px 14px;
             border-radius: var(--radius);
@@ -713,12 +645,9 @@
             font-size: 0.85rem;
             outline: none;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
         .search-bar input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(108, 92, 231, 0.1);
         }
         .search-bar input::placeholder {
             color: var(--text3);
@@ -747,8 +676,6 @@
             font-size: 0.82rem;
             outline: none;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
         }
         .add-task .row input:focus,
         .add-task .row select:focus {
@@ -779,7 +706,6 @@
         .tasks-section {
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 14px 16px;
@@ -814,7 +740,6 @@
             transition: var(--transition);
             border-left: 3px solid var(--primary);
             animation: slideIn 0.35s ease;
-            position: relative;
         }
         @keyframes slideIn {
             from {
@@ -920,9 +845,6 @@
         .task-actions button:active {
             transform: scale(0.85);
         }
-        .task-actions button:hover {
-            background: var(--surface3);
-        }
         .task-actions .btn-done {
             color: #4ade80;
         }
@@ -951,13 +873,10 @@
             margin-bottom: 8px;
         }
 
-        /* ============================================
-                   REPORT PAGE
-                   ============================================ */
+        /* ========== REPORT ========== */
         .report-section {
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 16px 18px;
@@ -1069,9 +988,6 @@
         .experience-box textarea:focus {
             border-color: var(--primary);
         }
-        .experience-box textarea::placeholder {
-            color: var(--text3);
-        }
         .experience-box .save-btn {
             margin-top: 8px;
             padding: 8px 20px;
@@ -1098,9 +1014,7 @@
             color: var(--text2);
         }
 
-        /* ============================================
-                   LEADERBOARD
-                   ============================================ */
+        /* ========== LEADERBOARD ========== */
         .leaderboard-item {
             display: flex;
             align-items: center;
@@ -1140,9 +1054,7 @@
             background: var(--surface3);
         }
 
-        /* ============================================
-                   ACTION BAR
-                   ============================================ */
+        /* ========== ACTION BAR ========== */
         .action-bar {
             display: flex;
             gap: 6px;
@@ -1166,14 +1078,8 @@
         .action-bar button:active {
             transform: scale(0.95);
         }
-        .action-bar button:hover {
-            background: var(--surface3);
-            color: var(--text);
-        }
 
-        /* ============================================
-                   TOAST
-                   ============================================ */
+        /* ========== TOAST ========== */
         .toast {
             position: fixed;
             top: 16px;
@@ -1181,1591 +1087,10 @@
             transform: translateX(-50%) translateY(-120%);
             background: var(--surface);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             padding: 12px 20px;
             border-radius: var(--radius-sm);
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
             font-weight: 500;
             font-size: 0.8rem;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 999;
-            max-width: 90%;
-            text-align: center;
-            border-left: 4px solid var(--primary);
-        }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* ============================================
-                   MODAL
-                   ============================================ */
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            padding: 20px;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px 20px;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            animation: modalSlide 0.3s ease;
-        }
-        @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: scale(0.92) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        .modal-content h2 {
-            font-size: 1.1rem;
-            margin-bottom: 16px;
-        }
-        .modal-content input,
-        .modal-content select {
-            width: 100%;
-            padding: 10px 14px;
-            margin-bottom: 8px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            color: var(--text);
-            font-size: 0.85rem;
-            outline: none;
-            transition: var(--transition);
-        }
-        .modal-content input:focus,
-        .modal-content select:focus {
-            border-color: var(--primary);
-        }
-        .modal-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-        .modal-actions button {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .modal-actions .btn-save {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #fff;
-        }
-        .modal-actions .btn-cancel {
-            background: var(--surface3);
-            color: var(--text2);
-        }
-        .modal-actions button:active {
-            transform: scale(0.95);
-        }
-
-        /* ============================================
-                   DEMO BUTTON
-                   ============================================ */
-        .demo-fab {
-            position: fixed;
-            bottom: 80px;
-            right: 16px;
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            color: #fff;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.75rem;
-            cursor: pointer;
-            box-shadow: 0 4px 30px rgba(253, 121, 168, 0.35);
-            transition: var(--transition);
-            z-index: 50;
-            animation: demoPulse 2s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .demo-fab:active {
-            transform: scale(0.92);
-        }
-        @keyframes demoPulse {
-            0%,
-            100% {
-                box-shadow: 0 4px 30px rgba(253, 121, 168, 0.35);
-            }
-            50% {
-                box-shadow: 0 4px 50px rgba(253, 121, 168, 0.55);
-            }
-        }
-
-        /* ============================================
-                   HIDDEN FILE INPUT
-                   ============================================ */
-        #fileInput {
-            display: none;
-        }
-
-        /* ============================================
-                   RESPONSIVE TWEAKS
-                   ============================================ */
-        @media (max-width: 380px) {
-            .header-left h1 {
-                font-size: 1rem;
-            }
-            .header-left .user-badge .name {
-                max-width: 40px;
-            }
-            .stat-pill {
-                font-size: 0.6rem;
-                padding: 3px 7px;
-            }
-            .home-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 6px;
-            }
-            .home-card {
-                padding: 10px 6px;
-            }
-            .home-card .num {
-                font-size: 1.1rem;
-            }
-            .home-card .icon {
-                font-size: 1.2rem;
-            }
-            .report-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .task-item .task-text {
-                font-size: 0.75rem;
-            }
-            .task-item .task-badges .task-badge {
-                font-size: 0.5rem;
-                padding: 1px 5px;
-            }
-            .add-task .row input,
-            .add-task .row select {
-                font-size: 0.75rem;
-                padding: 8px 10px;
-            }
-            .add-task .row input[type="time"] {
-                max-width: 80px;
-            }
-            .date-nav h2 {
-                font-size: 0.8rem;
-            }
-            .date-nav button {
-                width: 30px;
-                height: 30px;
-                font-size: 0.8rem;
-            }
-            .nav-tabs button .nav-icon {
-                font-size: 1.1rem;
-            }
-            .nav-tabs button .nav-label {
-                font-size: 0.5rem;
-            }
-        }
-
-        @media (min-width: 431px) {
-            .app-container {
-                padding: 0 24px 80px 24px;
-            }
-            .nav-tabs {
-                max-width: 430px;
-                left: 50%;
-                transform: translateX(-50%);
-                border-radius: var(--radius) var(--radius) 0 0;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) transparent;
-        }
-
-        /* Safe area for notch phones */
-        @supports (padding: max(0px)) {
-            .app-container {
-                padding-left: max(16px, env(safe-area-inset-left));
-                padding-right: max(16px, env(safe-area-inset-right));
-            }
-            .nav-tabs {
-                padding-left: max(8px, env(safe-area-inset-left));
-                padding-right: max(8px, env(safe-area-inset-right));
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Background Effects -->
-    <div class="bg-effects">
-        <div class="gradient-orb orb1"></div>
-        <div class="gradient-orb orb2"></div>
-        <div class="gradient-orb orb3"></div>
-        <div class="particles" id="particles"></div>
-    </div>
-
-    <!-- ============================================
-    LOGIN SCREEN
-    ============================================ -->
-    <div id="loginScreen">
-        <div class="login-box">
-            <span class="logo-icon">✨</span>
-            <h1>Planner Pro</h1>
-            <div class="sub">Smart planning. Better results.</div>
-
-            <button class="google-btn" id="googleLogin">
-                <svg viewBox="0 0 48 48" width="20" height="20">
-                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
-                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
-                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
-                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
-                </svg>
-                Google
-            </button>
-
-            <div class="divider">OR</div>
-
-            <input type="text" id="loginName" placeholder="👤 Your name" autocomplete="off" />
-            <input type="password" id="loginPass" placeholder="🔒 Password" />
-            <button class="login-btn" id="loginBtn">🚀 Get Started</button>
-
-            <div class="footer-text">⚡ "Plan like a pro, achieve like a legend"</div>
-        </div>
-    </div>
-
-    <!-- ============================================
-    MAIN APP
-    ============================================ -->
-    <div class="app-container" id="appMain" style="display:none;">
-
-        <!-- HEADER -->
-        <header class="header">
-            <div class="header-left">
-                <h1>✨ Planner</h1>
-                <div class="user-badge" id="userBadge">
-                    <img id="userAvatar" src="" alt="User" />
-                    <span class="name" id="userNameDisplay">User</span>
-                </div>
-            </div>
-            <div class="header-stats">
-                <div class="stat-pill">⭐ <span id="totalPoints">0</span></div>
-                <div class="stat-pill green">🔥 <span id="streakCount">0</span></div>
-                <button class="theme-btn" id="themeToggle">🌓</button>
-                <button class="logout-btn" id="logoutBtn">✕</button>
-            </div>
-        </header>
-
-        <!-- PAGES -->
-        <!-- HOME -->
-        <div class="page active" id="page-home">
-            <div class="welcome-card">
-                <h2>👋 Hey, <span id="welcomeName">User</span>!</h2>
-                <p>Plan your day, earn points, and maintain your streak.</p>
-                <div class="quote" id="dailyQuote">💭 "The secret of getting ahead is getting started."</div>
-            </div>
-
-            <div class="home-grid">
-                <div class="home-card">
-                    <div class="icon">📋</div>
-                    <div class="num" id="hTasks">0</div>
-                    <div class="label">Today</div>
-                </div>
-                <div class="home-card">
-                    <div class="icon">✅</div>
-                    <div class="num" id="hDone">0</div>
-                    <div class="label">Done</div>
-                </div>
-                <div class="home-card">
-                    <div class="icon">⭐</div>
-                    <div class="num" id="hPoints">0</div>
-                    <div class="label">Points</div>
-                </div>
-                <div class="home-card">
-                    <div class="icon">🔥</div>
-                    <div class="num" id="hStreak">0%</div>
-                    <div class="label">Success</div>
-                </div>
-                <div class="home-card">
-                    <div class="icon">🏷️</div>
-                    <div class="num small-num" id="hCategories">0</div>
-                    <div class="label">Categories</div>
-                </div>
-                <div class="home-card">
-                    <div class="icon">📈</div>
-                    <div class="num" id="hTotalDone">0</div>
-                    <div class="label">All Time</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PLANNER -->
-        <div class="page" id="page-planner">
-            <div class="date-nav">
-                <button id="prevDay">◀</button>
-                <h2 id="currentDateDisplay"></h2>
-                <button id="nextDay">▶</button>
-            </div>
-
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="🔍 Search tasks..." />
-            </div>
-
-            <div class="add-task">
-                <div class="row">
-                    <input type="text" id="taskInput" placeholder="✏️ What to do?" />
-                    <input type="time" id="timeInput" value="09:00" />
-                </div>
-                <div class="row">
-                    <select id="categorySelect">
-                        <option value="Work">💼 Work</option>
-                        <option value="Personal">🏠 Personal</option>
-                        <option value="Health">💪 Health</option>
-                        <option value="Learning">📚 Learning</option>
-                        <option value="Finance">💰 Finance</option>
-                        <option value="Other">🎯 Other</option>
-                    </select>
-                    <select id="prioritySelect">
-                        <option value="low">🔵 Low</option>
-                        <option value="medium" selected>🟡 Med</option>
-                        <option value="high">🔴 High</option>
-                    </select>
-                    <button class="add-btn" id="addTaskBtn">+ Add</button>
-                </div>
-            </div>
-
-            <div class="tasks-section">
-                <div class="section-header">
-                    <h3>📌 Today's Tasks</h3>
-                    <span id="taskCount">0</span>
-                </div>
-                <div id="taskList">
-                    <div class="empty-state">
-                        <span class="icon">🎯</span>
-                        No tasks yet. Add one above!
-                    </div>
-                </div>
-            </div>
-
-            <div class="action-bar">
-                <button id="exportBtn">📥 Export</button>
-                <button id="importBtn">📤 Import</button>
-                <button id="clearWeekBtn">🗑️ Clear Week</button>
-            </div>
-        </div>
-
-        <!-- REPORT -->
-        <div class="page" id="page-report">
-            <div class="report-section">
-                <h2>📊 Weekly Report</h2>
-                <div class="report-grid">
-                    <div class="report-card"><div class="num" id="rTotal">0</div><div class="label">Total</div></div>
-                    <div class="report-card"><div class="num" id="rDone">0</div><div class="label">✅ Done</div></div>
-                    <div class="report-card"><div class="num" id="rFailed">0</div><div class="label">❌ Missed</div></div>
-                    <div class="report-card"><div class="num" id="rPoints">0</div><div class="label">⭐ Points</div></div>
-                    <div class="report-card"><div class="num" id="rPercent">0%</div><div class="label">Success</div></div>
-                </div>
-
-                <div class="chart-container">
-                    <h4>📈 Daily Progress</h4>
-                    <div id="weeklyChart"></div>
-                </div>
-
-                <div class="experience-box">
-                    <h4>📝 Week Reflection</h4>
-                    <textarea id="experienceInput" placeholder="How was your week? What did you learn?..." rows="2"></textarea>
-                    <button class="save-btn" id="saveExperienceBtn">💾 Save</button>
-                    <div class="saved-experience" id="savedExperience"></div>
-                </div>
-            </div>
-
-            <div class="action-bar">
-                <button id="exportReportBtn">📥 Export Report</button>
-            </div>
-        </div>
-
-        <!-- LEADERBOARD -->
-        <div class="page" id="page-leaderboard">
-            <div class="report-section">
-                <h2>🏆 Global Leaderboard</h2>
-                <p style="color:var(--text2);font-size:0.8rem;margin-bottom:12px;">Top performers worldwide 🌍</p>
-                <div id="leaderboardList">
-                    <div style="text-align:center;color:var(--text3);padding:20px;font-size:0.85rem;">Loading...</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================
-    BOTTOM NAVIGATION
-    ============================================ -->
-    <nav class="nav-tabs" id="bottomNav">
-        <button class="active" data-page="home">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-label">Home</span>
-        </button>
-        <button data-page="planner">
-            <span class="nav-icon">📋</span>
-            <span class="nav-label">Planner</span>
-        </button>
-        <button data-page="report">
-            <span class="nav-icon">📊</span>
-            <span class="nav-label">Report</span>
-        </button>
-        <button data-page="leaderboard">
-            <span class="nav-icon">🏆</span>
-            <span class="nav-label">Top</span>
-        </button>
-    </nav>
-
-    <!-- ============================================
-    TOAST
-    ============================================ -->
-    <div class="toast" id="toast"></div>
-
-    <!-- ============================================
-    MODAL
-    ============================================ -->
-    <div class="modal" id="editModal">
-        <div class="modal-content">
-            <h2>✏️ Edit Task</h2>
-            <input type="text" id="editTaskInput" placeholder="Task text..." />
-            <input type="time" id="editTimeInput" />
-            <select id="editCategorySelect">
-                <option value="Work">💼 Work</option>
-                <option value="Personal">🏠 Personal</option>
-                <option value="Health">💪 Health</option>
-                <option value="Learning">📚 Learning</option>
-                <option value="Finance">💰 Finance</option>
-                <option value="Other">🎯 Other</option>
-            </select>
-            <select id="editPrioritySelect">
-                <option value="low">🔵 Low (5 pts)</option>
-                <option value="medium" selected>🟡 Medium (10 pts)</option>
-                <option value="high">🔴 High (20 pts)</option>
-            </select>
-            <div class="modal-actions">
-                <button class="btn-save" id="saveEditBtn">💾 Save</button>
-                <button class="btn-cancel" id="cancelEditBtn">❌ Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================
-    DEMO FAB
-    ============================================ -->
-    <button class="demo-fab" id="demoBtn">🎬 Demo</button>
-
-    <!-- ============================================
-    HIDDEN FILE INPUT
-    ============================================ -->
-    <input type="file" id="fileInput" accept=".json" />
-
-    <!-- ============================================
-    SCRIPT
-    ============================================ -->
-    <script>
-        // =============================================
-        // STATE
-        // =============================================
-        let state = {
-            tasks: {},
-            experience: {},
-            currentDate: new Date(),
-            user: null,
-            userEmail: null,
-            userPhoto: null,
-            streak: 0,
-            lastActiveDate: null,
-            points: 0,
-            totalCompleted: 0
-        };
-
-        const STORAGE_KEY = 'planner_pro_v3';
-        const PRIORITY_POINTS = { low: 5, medium: 10, high: 20 };
-
-        const QUOTES = [
-            "The only way to do great work is to love what you do. — Steve Jobs",
-            "Believe you can and you're halfway there. — Theodore Roosevelt",
-            "It does not matter how slowly you go as long as you do not stop. — Confucius",
-            "Success is not final, failure is not fatal: it is the courage to continue that counts. — Winston Churchill",
-            "The future belongs to those who believe in the beauty of their dreams. — Eleanor Roosevelt",
-            "Act as if what you do makes a difference. It does. — William James",
-            "What you get by achieving your goals is not as important as what you become. — Zig Ziglar",
-            "The best time to plant a tree was 20 years ago. The second best time is now.",
-            "You are never too old to set another goal or to dream a new dream. — C.S. Lewis",
-            "Small daily improvements over time lead to stunning results.",
-            "Don't watch the clock; do what it does. Keep going. — Sam Levenson",
-            "The secret of getting ahead is getting started. — Mark Twain",
-            "Your limitation—it's only your imagination.",
-            "Push yourself, because no one else is going to do it for you.",
-            "Great things never come from comfort zones.",
-            "Dream it. Wish it. Do it.",
-            "Success doesn't just find you. You have to go out and get it."
-        ];
-
-        // =============================================
-        // UTILITY
-        // =============================================
-        const $ = (id) => document.getElementById(id);
-
-        function formatDate(d) {
-            const y = d.getFullYear(),
-                m = String(d.getMonth() + 1).padStart(2, '0'),
-                day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
-        }
-
-        function displayDate(d) {
-            return d.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
-        }
-
-        function dateStr(d) { return formatDate(d); }
-
-        function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 5); }
-
-        function getWeekId(d) {
-            const dt = new Date(d);
-            const day = dt.getDay();
-            const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
-            const monday = new Date(dt.setDate(diff));
-            return formatDate(monday);
-        }
-
-        function getWeekRange(d) {
-            const dt = new Date(d);
-            const day = dt.getDay();
-            const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
-            const monday = new Date(dt.setDate(diff));
-            const sunday = new Date(monday);
-            sunday.setDate(monday.getDate() + 6);
-            return `${monday.getDate()}/${monday.getMonth()+1}-${sunday.getDate()}/${sunday.getMonth()+1}`;
-        }
-
-        function getDayName(d) {
-            return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
-        }
-
-        function esc(t) {
-            const d = document.createElement('div');
-            d.textContent = t;
-            return d.innerHTML;
-        }
-
-        function getRandomQuote() {
-            return QUOTES[Math.floor(Math.random() * QUOTES.length)];
-        }
-
-        // =============================================
-        // ALARM SYSTEM
-        // =============================================
-        let notifiedTasks = new Set();
-        let alarmTimeouts = [];
-
-        function playAlarmSound() {
-            try {
-                const ctx = new(window.AudioContext || window.webkitAudioContext)();
-                const oscillator = ctx.createOscillator();
-                const gainNode = ctx.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(ctx.destination);
-                oscillator.frequency.value = 880;
-                oscillator.type = 'square';
-                gainNode.gain.setValueAtTime(0.25, ctx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2);
-                oscillator.start(ctx.currentTime);
-                oscillator.stop(ctx.currentTime + 2);
-                if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-            } catch (e) {}
-        }
-
-        function requestNotifPermission() {
-            if (!('Notification' in window)) return;
-            if (Notification.permission === 'default') Notification.requestPermission();
-        }
-
-        function sendNotification(title, body) {
-            if (!('Notification' in window) || Notification.permission !== 'granted') return;
-            try {
-                new Notification(title, {
-                    body: body,
-                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⏰</text></svg>',
-                    silent: false,
-                    vibrate: [200, 100, 200]
-                });
-            } catch (e) {}
-        }
-
-        function startAlarmChecker() {
-            alarmTimeouts.forEach(t => clearTimeout(t));
-            alarmTimeouts = [];
-
-            const today = dateStr(state.currentDate);
-            const tasks = state.tasks[today] || [];
-            const now = new Date();
-
-            tasks.forEach(t => {
-                if (t.status !== 'pending' || notifiedTasks.has(t.id) || !t.alarm) return;
-
-                const [taskHour, taskMin] = t.time.split(':').map(Number);
-                const nowHour = now.getHours(),
-                    nowMin = now.getMinutes();
-                const timeDiff = (taskHour * 60 + taskMin) - (nowHour * 60 + nowMin);
-
-                if (timeDiff > 0 && timeDiff <= 1440) {
-                    const timeoutId = setTimeout(() => {
-                        if (t.status === 'pending') {
-                            sendNotification('⏰ Alarm!', `"${t.text}" - Time to do this!`);
-                            playAlarmSound();
-                            showToast(`🔔 "${t.text}" ka time!`, 'var(--secondary)');
-                            notifiedTasks.add(t.id);
-                        }
-                    }, timeDiff * 60 * 1000);
-                    alarmTimeouts.push(timeoutId);
-                }
-            });
-        }
-
-        function scheduleAlarmCheck() {
-            const today = dateStr(state.currentDate);
-            const tasks = state.tasks[today] || [];
-            notifiedTasks = new Set(tasks.filter(t => t.status !== 'pending').map(t => t.id));
-            startAlarmChecker();
-
-            if (window.alarmInterval) clearInterval(window.alarmInterval);
-            window.alarmInterval = setInterval(() => {
-                const now = new Date();
-                const ct = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-                const todayTasks = state.tasks[dateStr(state.currentDate)] || [];
-
-                todayTasks.forEach(t => {
-                    if (t.status !== 'pending' || notifiedTasks.has(t.id) || !t.alarm) return;
-                    if (t.time === ct) {
-                        sendNotification('⏰ Alarm!', `"${t.text}" - Do it now!`);
-                        playAlarmSound();
-                        showToast(`🔔 "${t.text}" ka time!`, 'var(--secondary)');
-                        notifiedTasks.add(t.id);
-                    }
-                });
-            }, 30000);
-        }
-
-        // =============================================
-        // STREAK
-        // =============================================
-        function updateStreak() {
-            const today = dateStr(new Date());
-            const yesterday = dateStr(new Date(Date.now() - 86400000));
-            const todayTasks = state.tasks[today] || [];
-            const hasDoneToday = todayTasks.some(t => t.status === 'done');
-
-            if (hasDoneToday) {
-                const yesterdayTasks = state.tasks[yesterday] || [];
-                const wasDoneYesterday = yesterdayTasks.some(t => t.status === 'done');
-                if (wasDoneYesterday || state.streak === 0) {
-                    state.streak += 1;
-                }
-            } else {
-                const hasAnyDone = todayTasks.some(t => t.status === 'done');
-                if (!hasAnyDone && state.streak > 0) {
-                    const yesterdayTasks = state.tasks[yesterday] || [];
-                    const wasDoneYesterday = yesterdayTasks.some(t => t.status === 'done');
-                    if (!wasDoneYesterday) {
-                        state.streak = 0;
-                    }
-                }
-            }
-            state.lastActiveDate = today;
-            saveState();
-        }
-
-        // =============================================
-        // SAVE / LOAD
-        // =============================================
-        function saveState() {
-            const data = {
-                tasks: state.tasks,
-                experience: state.experience,
-                user: state.user,
-                userEmail: state.userEmail,
-                userPhoto: state.userPhoto,
-                streak: state.streak,
-                lastActiveDate: state.lastActiveDate,
-                points: state.points,
-                totalCompleted: state.totalCompleted
-            };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        }
-
-        function loadState() {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (raw) {
-                try {
-                    const data = JSON.parse(raw);
-                    state.tasks = data.tasks || {};
-                    state.experience = data.experience || {};
-                    state.user = data.user || null;
-                    state.userEmail = data.userEmail || null;
-                    state.userPhoto = data.userPhoto || null;
-                    state.streak = data.streak || 0;
-                    state.lastActiveDate = data.lastActiveDate || null;
-                    state.points = data.points || 0;
-                    state.totalCompleted = data.totalCompleted || 0;
-                } catch (e) {}
-            }
-            if (!state.tasks) state.tasks = {};
-            if (!state.experience) state.experience = {};
-            if (!state.currentDate) state.currentDate = new Date();
-            recalculatePoints();
-        }
-
-        function recalculatePoints() {
-            let totalPts = 0,
-                completed = 0;
-            Object.values(state.tasks).forEach(dayTasks => {
-                dayTasks.forEach(t => {
-                    if (t.status === 'done') {
-                        totalPts += t.points || PRIORITY_POINTS[t.priority] || 10;
-                        completed++;
-                    }
-                });
-            });
-            state.points = totalPts;
-            state.totalCompleted = completed;
-        }
-
-        // =============================================
-        // TOAST
-        // =============================================
-        function showToast(msg, color = 'var(--primary)') {
-            const t = $('toast');
-            t.textContent = msg;
-            t.style.borderLeftColor = color;
-            t.classList.add('show');
-            clearTimeout(t._timeout);
-            t._timeout = setTimeout(() => t.classList.remove('show'), 3000);
-        }
-
-        // =============================================
-        // RENDER
-        // =============================================
-        function render() {
-            const today = dateStr(state.currentDate);
-            const tasks = state.tasks[today] || [];
-            const weekId = getWeekId(state.currentDate);
-
-            $('currentDateDisplay').textContent = displayDate(state.currentDate);
-
-            updateStreak();
-
-            $('totalPoints').textContent = state.points;
-            $('streakCount').textContent = state.streak;
-
-            // Task list
-            const searchTerm = ($('searchInput')?.value || '').toLowerCase();
-
-            if (tasks.length === 0) {
-                $('taskList').innerHTML = `
-                            <div class="empty-state">
-                                <span class="icon">🎯</span>
-                                No tasks today. Add one above!
-                            </div>
-                        `;
-                $('taskCount').textContent = '0';
-            } else {
-                const filtered = searchTerm ? tasks.filter(t => t.text.toLowerCase().includes(searchTerm)) : tasks;
-                $('taskCount').textContent = filtered.length;
-
-                if (filtered.length === 0 && searchTerm) {
-                    $('taskList').innerHTML = `
-                                <div class="empty-state">
-                                    <span class="icon">🔍</span>
-                                    No tasks matching "${searchTerm}"
-                                </div>
-                            `;
-                } else {
-                    $('taskList').innerHTML = filtered.map(t => {
-                        const cls = t.status === 'done' ? 'done' : t.status === 'failed' ? 'failed' : '';
-                        const actions = t.status === 'pending' ? `
-                                    <button class="btn-done" onclick="markDone('${t.id}')" title="Done">✅</button>
-                                    <button class="btn-fail" onclick="markFailed('${t.id}')" title="Miss">❌</button>
-                                    <button class="btn-edit" onclick="openEditModal('${t.id}')" title="Edit">✏️</button>
-                                ` : '';
-                        const alarmIcon = t.alarm ? `<span class="task-badge alarm">🔔</span>` : '';
-
-                        return `
-                                    <div class="task-item ${cls}">
-                                        <div class="task-time">${t.time}</div>
-                                        <div class="task-text">${esc(t.text)}</div>
-                                        <div class="task-badges">
-                                            <span class="task-badge category">${t.category || 'Other'}</span>
-                                            <span class="task-badge points">⭐${t.points}</span>
-                                            ${alarmIcon}
-                                        </div>
-                                        <div class="task-actions">
-                                            ${actions}
-                                            <button class="btn-alarm" onclick="toggleAlarm('${t.id}')" title="Alarm">${t.alarm ? '🔕' : '🔔'}</button>
-                                            <button class="btn-delete" onclick="deleteTask('${t.id}')" title="Delete">🗑️</button>
-                                        </div>
-                                    </div>
-                                `;
-                    }).join('');
-                }
-            }
-
-            // Home stats
-            const hToday = state.tasks[today] || [];
-            const hDone = hToday.filter(t => t.status === 'done').length;
-            const allDone = Object.values(state.tasks).flat().filter(t => t.status === 'done').length;
-
-            let wTotal = 0,
-                wDone = 0;
-            Object.entries(state.tasks).forEach(([ds, ts]) => {
-                const d = new Date(ds + 'T12:00:00');
-                if (getWeekId(d) === weekId) {
-                    ts.forEach(t => { wTotal++;
-                        if (t.status === 'done') wDone++; });
-                }
-            });
-            const pct = wTotal > 0 ? Math.round((wDone / wTotal) * 100) : 0;
-
-            const categories = new Set();
-            Object.values(state.tasks).flat().forEach(t => { if (t.category) categories.add(t.category); });
-
-            $('hTasks').textContent = hToday.length;
-            $('hDone').textContent = hDone;
-            $('hPoints').textContent = state.points;
-            $('hStreak').textContent = pct + '%';
-            $('hCategories').textContent = categories.size;
-            $('hTotalDone').textContent = allDone;
-
-            // Report
-            $('rTotal').textContent = wTotal;
-            $('rDone').textContent = wDone;
-            $('rFailed').textContent = wTotal - wDone;
-            let wPts = 0;
-            Object.entries(state.tasks).forEach(([ds, ts]) => {
-                if (getWeekId(new Date(ds + 'T12:00:00')) === weekId) {
-                    ts.forEach(t => { if (t.status === 'done') wPts += t.points; });
-                }
-            });
-            $('rPoints').textContent = wPts;
-            $('rPercent').textContent = pct + '%';
-
-            // Chart
-            renderChart(weekId);
-
-            // Experience
-            const expKey = weekId + '_exp';
-            const savedExp = state.experience[expKey];
-            if (savedExp) {
-                $('savedExperience').style.display = 'block';
-                $('savedExperience').innerHTML = `📝 ${esc(savedExp)}`;
-                $('experienceInput').value = savedExp;
-            } else {
-                $('savedExperience').style.display = 'none';
-            }
-
-            // Quote
-            const todayIdx = new Date().getDate() % QUOTES.length;
-            $('dailyQuote').textContent = `💭 "${QUOTES[todayIdx]}"`;
-
-            // Leaderboard
-            renderLeaderboard();
-
-            scheduleAlarmCheck();
-        }
-
-        // =============================================
-        // CHART
-        // =============================================
-        function renderChart(weekId) {
-            const container = $('weeklyChart');
-            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            const weekStart = new Date(weekId + 'T12:00:00');
-            let maxTasks = 0;
-            const data = [];
-
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(weekStart);
-                d.setDate(d.getDate() + i);
-                const ds = dateStr(d);
-                const tasks = state.tasks[ds] || [];
-                const done = tasks.filter(t => t.status === 'done').length;
-                const total = tasks.length;
-                data.push({ day: days[i], done, total });
-                if (total > maxTasks) maxTasks = total;
-            }
-
-            let html = '';
-            data.forEach(d => {
-                const pct = maxTasks > 0 ? Math.round((d.done / maxTasks) * 100) : 0;
-                html += `
-                            <div class="chart-bar">
-                                <div class="day-label">${d.day}</div>
-                                <div class="bar-track">
-                                    <div class="bar-fill" style="width:${pct}%;"></div>
-                                </div>
-                                <div class="bar-label">${d.done}/${d.total}</div>
-                            </div>
-                        `;
-            });
-            container.innerHTML = html;
-        }
-
-        // =============================================
-        // LEADERBOARD
-        // =============================================
-        function renderLeaderboard() {
-            const container = $('leaderboardList');
-            const users = [
-                { name: state.user || 'You', points: state.points, streak: state.streak },
-                { name: 'Rahul', points: 2450, streak: 12 },
-                { name: 'Priya', points: 2100, streak: 8 },
-                { name: 'Amit', points: 1800, streak: 6 },
-                { name: 'Sneha', points: 1500, streak: 4 },
-                { name: 'Vikram', points: 1200, streak: 3 },
-                { name: 'Neha', points: 900, streak: 2 },
-                { name: 'Arjun', points: 600, streak: 1 },
-            ];
-            users.sort((a, b) => b.points - a.points);
-
-            let html = '';
-            users.forEach((u, i) => {
-                const isUser = u.name === state.user;
-                html += `
-                            <div class="leaderboard-item ${isUser ? 'highlight' : ''}">
-                                <div class="rank">#${i + 1}</div>
-                                <div class="name">${isUser ? '⭐ ' : ''}${u.name}</div>
-                                <div class="points">${u.points}</div>
-                                <div class="streak">🔥${u.streak}d</div>
-                            </div>
-                        `;
-            });
-            container.innerHTML = html;
-        }
-
-        // =============================================
-        // TASK OPERATIONS
-        // =============================================
-        window.addTask = function() {
-            const text = $('taskInput').value.trim();
-            const time = $('timeInput').value;
-            const category = $('categorySelect').value;
-            const priority = $('prioritySelect').value;
-
-            if (!text) { showToast('❌ Write a task!', 'var(--red)'); return; }
-            if (!time) { showToast('❌ Select time!', 'var(--red)'); return; }
-
-            const today = dateStr(state.currentDate);
-            if (!state.tasks[today]) state.tasks[today] = [];
-
-            const task = {
-                id: generateId(),
-                text,
-                time,
-                category,
-                priority,
-                status: 'pending',
-                points: PRIORITY_POINTS[priority],
-                date: today,
-                alarm: true,
-                createdAt: new Date().toISOString()
-            };
-
-            state.tasks[today].push(task);
-            state.tasks[today].sort((a, b) => a.time.localeCompare(b.time));
-
-            $('taskInput').value = '';
-            saveState();
-            render();
-            showToast(`✅ "${task.text}" added at ${time}`, 'var(--green)');
-            scheduleAlarmCheck();
-        };
-
-        window.markDone = function(id) {
-            const today = dateStr(state.currentDate);
-            const task = (state.tasks[today] || []).find(t => t.id === id);
-            if (!task || task.status !== 'pending') return;
-
-            task.status = 'done';
-            state.points += task.points;
-            state.totalCompleted += 1;
-            saveState();
-            render();
-            updateStreak();
-            showToast(`✅ "${task.text}" +${task.points}pts`, 'var(--green)');
-        };
-
-        window.markFailed = function(id) {
-            const today = dateStr(state.currentDate);
-            const task = (state.tasks[today] || []).find(t => t.id === id);
-            if (!task || task.status !== 'pending') return;
-
-            task.status = 'failed';
-            saveState();
-            render();
-            showToast(`❌ "${task.text}" missed`, 'var(--red)');
-        };
-
-        window.deleteTask = function(id) {
-            const today = dateStr(state.currentDate);
-            const tasks = state.tasks[today] || [];
-            const idx = tasks.findIndex(t => t.id === id);
-            if (idx === -1) return;
-
-            const task = tasks[idx];
-            tasks.splice(idx, 1);
-            if (tasks.length === 0) delete state.tasks[today];
-
-            saveState();
-            render();
-            showToast(`🗑️ Deleted "${task.text}"`);
-        };
-
-        window.toggleAlarm = function(id) {
-            const today = dateStr(state.currentDate);
-            const task = (state.tasks[today] || []).find(t => t.id === id);
-            if (!task) return;
-
-            task.alarm = !task.alarm;
-            saveState();
-            render();
-            showToast(task.alarm ? '🔔 Alarm ON' : '🔕 Alarm OFF', 'var(--secondary)');
-            scheduleAlarmCheck();
-        };
-
-        // =============================================
-        // EDIT MODAL
-        // =============================================
-        let editTaskId = null;
-
-        window.openEditModal = function(id) {
-            const today = dateStr(state.currentDate);
-            const task = (state.tasks[today] || []).find(t => t.id === id);
-            if (!task) return;
-
-            editTaskId = id;
-            $('editTaskInput').value = task.text;
-            $('editTimeInput').value = task.time;
-            $('editCategorySelect').value = task.category || 'Other';
-            $('editPrioritySelect').value = task.priority || 'medium';
-            $('editModal').classList.add('active');
-        };
-
-        $('saveEditBtn').addEventListener('click', function() {
-            if (!editTaskId) return;
-            const today = dateStr(state.currentDate);
-            const task = (state.tasks[today] || []).find(t => t.id === editTaskId);
-            if (!task) return;
-
-            const text = $('editTaskInput').value.trim();
-            const time = $('editTimeInput').value;
-            const category = $('editCategorySelect').value;
-            const priority = $('editPrioritySelect').value;
-
-            if (!text) { showToast('❌ Task text required!', 'var(--red)'); return; }
-            if (!time) { showToast('❌ Time required!', 'var(--red)'); return; }
-
-            task.text = text;
-            task.time = time;
-            task.category = category;
-            task.priority = priority;
-            task.points = PRIORITY_POINTS[priority];
-
-            state.tasks[today].sort((a, b) => a.time.localeCompare(b.time));
-            $('editModal').classList.remove('active');
-            editTaskId = null;
-            saveState();
-            render();
-            showToast('✏️ Task updated!', 'var(--primary)');
-            scheduleAlarmCheck();
-        });
-
-        $('cancelEditBtn').addEventListener('click', function() {
-            $('editModal').classList.remove('active');
-            editTaskId = null;
-        });
-
-        $('editModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-                editTaskId = null;
-            }
-        });
-
-        // =============================================
-        // NAVIGATION
-        // =============================================
-        function switchTab(page) {
-            document.querySelectorAll('.nav-tabs button').forEach(b =>
-                b.classList.toggle('active', b.dataset.page === page)
-            );
-            document.querySelectorAll('.page').forEach(p =>
-                p.classList.toggle('active', p.id === 'page-' + page)
-            );
-            // Scroll to top on tab switch
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function prevDay() {
-            const d = new Date(state.currentDate);
-            d.setDate(d.getDate() - 1);
-            state.currentDate = d;
-            render();
-        }
-
-        function nextDay() {
-            const d = new Date(state.currentDate);
-            d.setDate(d.getDate() + 1);
-            state.currentDate = d;
-            render();
-        }
-
-        // =============================================
-        // EXPORT / IMPORT
-        // =============================================
-        function exportAll() {
-            const data = {
-                tasks: state.tasks,
-                experience: state.experience,
-                user: state.user,
-                exportedAt: new Date().toISOString(),
-                version: '2.0'
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `planner_backup_${dateStr(new Date())}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📥 Exported!', 'var(--green)');
-        }
-
-        function importData(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.tasks) state.tasks = data.tasks;
-                    if (data.experience) state.experience = data.experience;
-                    saveState();
-                    recalculatePoints();
-                    render();
-                    showToast('📤 Imported!', 'var(--green)');
-                } catch (err) {
-                    showToast('❌ Invalid file!', 'var(--red)');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function exportReport() {
-            const weekId = getWeekId(state.currentDate);
-            let wTotal = 0,
-                wDone = 0,
-                wPoints = 0;
-            Object.entries(state.tasks).forEach(([ds, ts]) => {
-                if (getWeekId(new Date(ds + 'T12:00:00')) === weekId) {
-                    ts.forEach(t => {
-                        wTotal++;
-                        if (t.status === 'done') { wDone++;
-                            wPoints += t.points; }
-                    });
-                }
-            });
-            const pct = wTotal > 0 ? Math.round((wDone / wTotal) * 100) : 0;
-            const exp = state.experience[weekId + '_exp'] || 'N/A';
-
-            const report = {
-                week: getWeekRange(state.currentDate),
-                weekId: weekId,
-                totalTasks: wTotal,
-                completed: wDone,
-                missed: wTotal - wDone,
-                points: wPoints,
-                successRate: pct + '%',
-                experience: exp,
-                streak: state.streak,
-                totalPoints: state.points,
-                totalCompleted: state.totalCompleted,
-                exportedAt: new Date().toISOString()
-            };
-
-            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `weekly_report_${weekId}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📊 Report exported!', 'var(--green)');
-        }
-
-        function clearWeek() {
-            if (!confirm('⚠️ Delete all tasks for this week?')) return;
-            const weekId = getWeekId(state.currentDate);
-            Object.keys(state.tasks).forEach(k => {
-                if (getWeekId(new Date(k + 'T12:00:00')) === weekId) {
-                    delete state.tasks[k];
-                }
-            });
-            delete state.experience[weekId + '_exp'];
-            saveState();
-            recalculatePoints();
-            render();
-            showToast('🗑️ Week cleared', 'var(--yellow)');
-        }
-
-        function saveExperience() {
-            const text = $('experienceInput').value.trim();
-            if (!text) { showToast('❌ Write something!', 'var(--red)'); return; }
-            const weekId = getWeekId(state.currentDate);
-            state.experience[weekId + '_exp'] = text;
-            saveState();
-            render();
-            showToast('💾 Reflection saved!', 'var(--green)');
-        }
-
-        // =============================================
-        // LOGIN / LOGOUT
-        // =============================================
-        function login(name, email = null, photo = null) {
-            if (!name || name.trim() === '') {
-                showToast('❌ Please enter your name!', 'var(--red)');
-                return;
-            }
-
-            state.user = name.trim();
-            state.userEmail = email;
-            state.userPhoto = photo;
-
-            saveState();
-
-            $('loginScreen').classList.add('hidden');
-            $('appMain').style.display = 'block';
-
-            if (state.userPhoto) {
-                $('userAvatar').src = state.userPhoto;
-                $('userAvatar').style.display = 'block';
-            } else {
-                $('userAvatar').style.display = 'none';
-            }
-            $('userNameDisplay').textContent = state.user;
-            $('welcomeName').textContent = state.user;
-
-            $('demoBtn').style.display = 'none';
-
-            recalculatePoints();
-            render();
-            showToast(`👋 Welcome, ${state.user}!`, 'var(--primary)');
-        }
-
-        function logout() {
-            state.user = null;
-            state.userEmail = null;
-            state.userPhoto = null;
-            saveState();
-
-            $('loginScreen').classList.remove('hidden');
-            $('appMain').style.display = 'none';
-            $('loginName').value = '';
-            $('loginPass').value = '';
-            $('demoBtn').style.display = 'flex';
-
-            if (window.alarmInterval) clearInterval(window.alarmInterval);
-            alarmTimeouts.forEach(t => clearTimeout(t));
-            alarmTimeouts = [];
-
-            showToast('🚪 Logged out');
-        }
-
-        // =============================================
-        // GOOGLE LOGIN (Simulated)
-        // =============================================
-        function googleLogin() {
-            const names = ['Aarav', 'Priya', 'Rohan', 'Sneha', 'Vikram', 'Ananya', 'Arjun', 'Kavya'];
-            const name = names[Math.floor(Math.random() * names.length)];
-            const email = name.toLowerCase() + '@gmail.com';
-            const btn = $('googleLogin');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '⏳ Connecting...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-                login(name, email, 'https://ui-avatars.com/api/?name=' + name + '&background=6c5ce7&color=fff&size=128&bold=true');
-            }, 1500);
-        }
-
-        // =============================================
-        // PARTICLES
-        // =============================================
-        function createParticles() {
-            const container = $('particles');
-            for (let i = 0; i < 25; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.width = (Math.random() * 3 + 1) + 'px';
-                p.style.height = p.style.width;
-                p.style.animationDuration = (Math.random() * 20 + 15) + 's';
-                p.style.animationDelay = (Math.random() * 20) + 's';
-                p.style.opacity = Math.random() * 0.2 + 0.05;
-                container.appendChild(p);
-            }
-        }
-
-        // =============================================
-        // DEMO
-        // =============================================
-        let demoRunning = false;
-        let demoInterval = null;
-
-        function startDemo() {
-            if (demoRunning) return;
-            if (!state.user) {
-                login('Demo User', 'demo@gmail.com');
-                setTimeout(() => startDemo(), 500);
-                return;
-            }
-
-            demoRunning = true;
-            showToast('🎬 Demo starting...', 'var(--accent)');
-            switchTab('planner');
-
-            const demoTasks = [
-                { text: 'Complete project presentation', time: '10:00', category: 'Work', priority: 'high' },
-                { text: 'Morning workout', time: '06:30', category: 'Health', priority: 'medium' },
-                { text: 'Read 30 pages', time: '08:00', category: 'Learning', priority: 'medium' },
-                { text: 'Team meeting', time: '14:00', category: 'Work', priority: 'high' },
-                { text: 'Meditate', time: '21:00', category: 'Health', priority: 'low' },
-            ];
-
-            const today = dateStr(new Date());
-            if (!state.tasks[today]) state.tasks[today] = [];
-            state.tasks[today] = [];
-
-            demoTasks.forEach(t => {
-                state.tasks[today].push({
-                    id: generateId(),
-                    text: t.text,
-                    time: t.time,
-                    category: t.category,
-                    priority: t.priority,
-                    status: 'pending',
-                    points: PRIORITY_POINTS[t.priority],
-                    date: today,
-                    alarm: true,
-                    createdAt: new Date().toISOString()
-                });
-            });
-
-            state.tasks[today].sort((a, b) => a.time.localeCompare(b.time));
-            saveState();
-            render();
-
-            let step = 0;
-            demoInterval = setInterval(() => {
-                const tasks = state.tasks[today] || [];
-                const pending = tasks.filter(t => t.status === 'pending');
-                if (pending.length === 0 || step >= 5) {
-                    clearInterval(demoInterval);
-                    demoRunning = false;
-                    showToast('🎉 Demo complete! Try adding your own tasks.', 'var(--green)');
-                    return;
-                }
-                const task = pending[0];
-                task.status = 'done';
-                state.points += task.points;
-                state.totalCompleted += 1;
-                saveState();
-                render();
-                showToast(`✅ ${task.text} +${task.points}pts`, 'var(--green)');
-                step++;
-            }, 2500);
-
-            setTimeout(() => {
-                sendNotification('🎬 Demo Started', 'Watch tasks being completed automatically!');
-            }, 2000);
-        }
-
-        // =============================================
-        // THEME
-        // =============================================
-        let darkMode = true;
-
-        function toggleTheme() {
-            darkMode = !darkMode;
-            document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
-            localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-            showToast(darkMode ? '🌙 Dark' : '☀️ Light', 'var(--primary)');
-        }
-
-        // =============================================
-        // KEYBOARD SHORTCUTS
-        // =============================================
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
-                e.preventDefault();
-                $('taskInput').focus();
-                switchTab('planner');
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'h') { e.preventDefault();
-                switchTab('home'); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'r') { e.preventDefault();
-                switchTab('report'); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'd') { e.preventDefault();
-                startDemo(); }
-            if (e.key === 'Escape') {
-                $('editModal').classList.remove('active');
-                editTaskId = null;
-            }
-            if (e.key === 'Enter' && document.activeElement === $('taskInput')) {
-                e.preventDefault();
-                addTask();
-            }
-        });
-
-        // =============================================
-        // INIT
-        // =============================================
-        function init() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                darkMode = false;
-                document.documentElement.setAttribute('data-theme', 'light');
-            }
-
-            loadState();
-
-            if (state.user) {
-                $('loginScreen').classList.add('hidden');
-                $('appMain').style.display = 'block';
-                if (state.userPhoto) {
-                    $('userAvatar').src = state.userPhoto;
-                    $('userAvatar').style.display = 'block';
-                } else {
-                    $('userAvatar').style.display = 'none';
-                }
-                $('userNameDisplay').textContent = state.user;
-                $('welcomeName').textContent = state.user;
-                $('demoBtn').style.display = 'none';
-                recalculatePoints();
-                render();
-            }
-
-            requestNotifPermission();
-            createParticles();
-
-            // Event listeners
-            $('loginBtn').addEventListener('click', () => {
-                const name = $('loginName').value.trim();
-                const pass = $('loginPass').value.trim();
-                if (!pass) { showToast('❌ Enter password!', 'var(--red)'); return; }
-                login(name);
-            });
-
-            $('loginPass').addEventListener('keypress', e => {
-                if (e.key === 'Enter') {
-                    const name = $('loginName').value.trim();
-                    const pass = $('loginPass').value.trim();
-                    if (!pass) { showToast('❌ Enter password!', 'var(--red)'); return; }
-                    login(name);
-                }
-            });
-
-            $('loginName').addEventListener('keypress', e => {
-                if (e.key === 'Enter') $('loginPass').focus();
-            });
-
-            $('googleLogin').addEventListener('click', googleLogin);
-            $('logoutBtn').addEventListener('click', logout);
-            $('addTaskBtn').addEventListener('click', addTask);
-
-            $('taskInput').addEventListener('keypress', e => {
-                if (e.key === 'Enter') addTask();
-            });
-
-            $('prevDay').addEventListener('click', prevDay);
-            $('nextDay').addEventListener('click', nextDay);
-            $('themeToggle').addEventListener('click', toggleTheme);
-
-            document.querySelectorAll('.nav-tabs button').forEach(btn => {
-                btn.addEventListener('click', () => switchTab(btn.dataset.page));
-            });
-
-            $('exportBtn').addEventListener('click', exportAll);
-            $('importBtn').addEventListener('click', () => $('fileInput').click());
-            $('fileInput').addEventListener('change', function(e) {
-                if (this.files && this.files[0]) {
-                    importData(this.files[0]);
-                }
-                this.value = '';
-            });
-
-            $('exportReportBtn').addEventListener('click', exportReport);
-            $('clearWeekBtn').addEventListener('click', clearWeek);
-            $('saveExperienceBtn').addEventListener('click', saveExperience);
-            $('searchInput').addEventListener('input', render);
-            $('demoBtn').addEventListener('click', startDemo);
-
-            // Show welcome toast
-            setTimeout(() => {
-                if (!state.user) {
-                    showToast('👆 Login or tap Google to start', 'var(--text3)');
-                }
-            }, 1000);
-        }
-
-        // Make functions global
-        window.addTask = addTask;
-        window.markDone = markDone;
-        window.markFailed = markFailed;
-        window.deleteTask = deleteTask;
-        window.toggleAlarm = toggleAlarm;
-        window.openEditModal = openEditModal;
-        window.startDemo = startDemo;
-
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
-</body>
-</html>
+           
