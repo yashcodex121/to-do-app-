@@ -1,1 +1,1033 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📋 Daily Planner Pro</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111;
+            --surface2: #1a1a1a;
+            --surface3: #222;
+            --border: #333;
+            --text: #f0f0f0;
+            --text2: #999;
+            --text3: #666;
+            --accent: #fff;
+            --green: #4ade80;
+            --yellow: #facc15;
+            --red: #f87171;
+            --radius: 14px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' opacity='0.04'%3E%3Ctext x='20' y='40' font-size='28' fill='white' font-family='serif'%3E∑%3C/text%3E%3Ctext x='180' y='80' font-size='24' fill='white'%3E∫%3C/text%3E%3Ctext x='300' y='150' font-size='36' fill='white'%3E√%3C/text%3E%3Ctext x='50' y='200' font-size='20' fill='white'%3Eπ%3C/text%3E%3Ctext x='250' y='280' font-size='30' fill='white'%3E∞%3C/text%3E%3Ctext x='100' y='350' font-size='26' fill='white'%3Eθ%3C/text%3E%3Ctext x='350' y='40' font-size='22' fill='white'%3EΔ%3C/text%3E%3Ctext x='30' y='120' font-size='18' fill='white'%3E∂%3C/text%3E%3Ctext x='320' y='220' font-size='32' fill='white'%3E∏%3C/text%3E%3Ctext x='150' y='320' font-size='20' fill='white'%3Eλ%3C/text%3E%3Ctext x='280' y='370' font-size='24' fill='white'%3EΦ%3C/text%3E%3Ctext x='380' y='300' font-size='18' fill='white'%3E≈%3C/text%3E%3Ctext x='70' y='270' font-size='16' fill='white'%3E≠%3C/text%3E%3Ctext x='200' y='180' font-size='22' fill='white'%3Eα%3C/text%3E%3Ctext x='360' y='100' font-size='20' fill='white'%3Eβ%3C/text%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.03'%3E%3Ctext x='10' y='30' font-size='16' fill='white' font-family='serif'%3E( + )²%3C/text%3E%3Ctext x='120' y='70' font-size='14' fill='white'%3Ex²+y²%3C/text%3E%3Ctext x='30' y='120' font-size='18' fill='white'%3E½%3C/text%3E%3Ctext x='140' y='160' font-size='16' fill='white'%3Elog₂%3C/text%3E%3Ctext x='60' y='190' font-size='14' fill='white'%3Esinθ%3C/text%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' opacity='0.025'%3E%3Ctext x='0' y='20' font-size='14' fill='white'%3Ea²b²%3C/text%3E%3Ctext x='80' y='60' font-size='16' fill='white'%3E∛%3C/text%3E%3Ctext x='20' y='100' font-size='12' fill='white'%3E∑x%3C/text%3E%3Ctext x='90' y='140' font-size='14' fill='white'%3Edy/dx%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat, repeat, repeat;
+            background-size: 400px 400px, 200px 200px, 150px 150px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        #loginScreen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        #loginScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .login-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 48px 40px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+        .login-box h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+        .login-box .sub {
+            color: var(--text2);
+            margin-bottom: 32px;
+            font-size: 0.95rem;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .login-box input:focus { border-color: var(--text2); }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 6px;
+        }
+        .login-box button:hover {
+            background: #ccc;
+            transform: translateY(-1px);
+        }
+        .login-box .login-maths {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            color: var(--text3);
+            margin-bottom: 16px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 18px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .header-left .user-badge {
+            background: var(--surface3);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: var(--text2);
+            border: 1px solid var(--border);
+        }
+        .header-stats {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: var(--surface2);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+        .stat-card span { color: var(--accent); }
+        .stat-card.green span { color: var(--green); }
+        .header button.logout-btn {
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .header button.logout-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 6px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+        .nav-tabs button {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            color: var(--text2);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-tabs button.active {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .nav-tabs button:hover:not(.active) { color: var(--text); }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .home-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+        .home-card:hover { transform: translateY(-2px); }
+        .home-card .icon {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+        }
+        .home-card .num {
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+        .home-card .label {
+            color: var(--text2);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        .home-welcome {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+        .home-welcome h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .home-welcome p { color: var(--text2); line-height: 1.6; }
+
+        .date-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        .date-nav button {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .date-nav button:hover { background: var(--surface3); }
+        .date-nav h2 { font-size: 1.1rem; font-weight: 600; }
+
+        .add-task {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .add-task input, .add-task select {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .add-task input:focus, .add-task select:focus { border-color: var(--text2); }
+        .add-task input[type="time"] { max-width: 130px; }
+        .add-task button {
+            padding: 12px 28px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .add-task button:hover { background: #ddd; }
+
+        .tasks-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+        .tasks-section h3 {
+            font-size: 1rem;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text2);
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--surface2);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            border-left: 3px solid var(--accent);
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-16px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .task-item.done { border-left-color: var(--green); opacity: 0.6; }
+        .task-item.done .task-text { text-decoration: line-through; color: var(--text3); }
+        .task-item.failed { border-left-color: var(--red); opacity: 0.5; }
+        .task-item.failed .task-text { text-decoration: line-through; color: var(--text3); }
+        .task-item .task-time {
+            background: var(--surface3);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            min-width: 60px;
+            text-align: center;
+            color: var(--text2);
+        }
+        .task-item .task-text { flex: 1; font-weight: 500; font-size: 0.95rem; }
+        .task-item .task-points {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text2);
+        }
+        .task-actions {
+            display: flex;
+            gap: 4px;
+        }
+        .task-actions button {
+            background: none;
+            border: none;
+            color: var(--text3);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        .task-actions button:hover { background: var(--surface3); }
+        .task-actions .btn-done { color: var(--green); }
+        .task-actions .btn-fail { color: var(--red); }
+
+        .report-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+        .report-section h2 { font-size: 1.2rem; margin-bottom: 14px; }
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .report-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .report-card .num { font-size: 1.8rem; font-weight: 800; }
+        .report-card .label { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+        .experience-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+        .experience-box h4 { margin-bottom: 10px; font-size: 0.95rem; }
+        .experience-box textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 70px;
+            outline: none;
+        }
+        .experience-box textarea:focus { border-color: var(--text2); }
+        .experience-box button {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .experience-box button:hover { background: #ddd; }
+        #savedExperience {
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: none;
+            font-size: 0.9rem;
+            color: var(--text2);
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .action-bar button {
+            padding: 10px 22px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text2);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .action-bar button:hover { background: var(--surface3); color: var(--text); }
+
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 14px 22px;
+            border-radius: 10px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transform: translateX(130%);
+            transition: transform 0.4s ease;
+            z-index: 999;
+        }
+        .toast.show { transform: translateX(0); }
+
+        @media (max-width: 600px) {
+            .header { flex-direction: column; align-items: stretch; text-align: center; }
+            .header-left { justify-content: center; }
+            .header-stats { justify-content: center; }
+            .add-task input, .add-task select { min-width: 100%; }
+            .add-task input[type="time"] { max-width: 100%; }
+            .add-task button { width: 100%; }
+            .login-box { padding: 32px 24px; }
+            .nav-tabs button { font-size: 0.8rem; padding: 10px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+    <div class="login-box">
+        <div class="login-maths">∑ ∫ √ π ∞</div>
+        <h1>📋 Planner</h1>
+        <div class="sub">Apna din plan karein, points kamayein</div>
+        <input type="text" id="loginName" placeholder="Apna naam likhein..." autocomplete="off" />
+        <input type="password" id="loginPass" placeholder="Password (kuch bhi daal sakte hain)" />
+        <button id="loginBtn">→ Login</button>
+        <p style="margin-top:16px;font-size:0.8rem;color:var(--text3);">π × r² = success 🔲</p>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="container" id="appMain" style="display:none;">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <h1>📋 Planner</h1>
+            <span class="user-badge" id="userBadge">👤 User</span>
+        </div>
+        <div class="header-stats">
+            <div class="stat-card">⭐ <span id="totalPoints">0</span></div>
+            <div class="stat-card green">✅ <span id="doneCount">0</span></div>
+            <div class="stat-card">📊 <span id="weekRange">-</span></div>
+            <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+        </div>
+    </div>
+
+    <!-- NAV TABS -->
+    <div class="nav-tabs">
+        <button class="active" data-page="home">🏠 Home</button>
+        <button data-page="planner">📋 Planner</button>
+        <button data-page="report">📊 Report</button>
+    </div>
+
+    <!-- PAGE: HOME -->
+    <div class="page active" id="page-home">
+        <div class="home-welcome" id="welcomeMsg">
+            <h2>👋 Welcome back, <span id="welcomeName">User</span>!</h2>
+            <p>Today is a new day — plan your tasks, earn points, and track your weekly progress. Maths is everywhere, even in productivity! 🧮</p>
+        </div>
+        <div class="home-grid">
+            <div class="home-card">
+                <div class="icon">📋</div>
+                <div class="num" id="hTasks">0</div>
+                <div class="label">Today's Tasks</div>
+            </div>
+            <div class="home-card">
+                <div class="icon">✅</div>
+                <div class="num" id="hDone">0</div>
+                <div class="label">Done Today</div>
+            </div>
+            <div class="home-card">
+                <div class="icon">⭐</div>
+                <div class="num" id="hPoints">0</div>
+                <div class="label">Total Points</div>
+            </div>
+            <div class="home-card">
+                <div class="icon">🔥</div>
+                <div class="num" id="hStreak">0%</div>
+                <div class="label">This Week Success</div>
+            </div>
+            <div class="home-card">
+                <div class="icon">🧮</div>
+                <div class="num" id="hMath" style="font-size:1.4rem;">∑√π</div>
+                <div class="label">Maths is Life</div>
+            </div>
+            <div class="home-card">
+                <div class="icon">📈</div>
+                <div class="num" id="hTotalDone">0</div>
+                <div class="label">All Time Completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: PLANNER -->
+    <div class="page" id="page-planner">
+        <div class="date-nav">
+            <button id="prevDay">◀</button>
+            <h2 id="currentDateDisplay"></h2>
+            <button id="nextDay">▶</button>
+        </div>
+
+        <div class="add-task">
+            <input type="text" id="taskInput" placeholder="Task likhein..." />
+            <input type="time" id="timeInput" value="09:00" />
+            <select id="prioritySelect">
+                <option value="low">Low (5 pts)</option>
+                <option value="medium" selected>Medium (10 pts)</option>
+                <option value="high">High (20 pts)</option>
+            </select>
+            <button id="addTaskBtn">+ Add</button>
+        </div>
+
+        <div class="tasks-section">
+            <h3>📌 Aaj ke Tasks</h3>
+            <div id="taskList"></div>
+        </div>
+
+        <div class="action-bar">
+            <button id="exportBtn">📥 Export</button>
+            <button id="clearWeekBtn">🗑️ Clear Week</button>
+        </div>
+    </div>
+
+    <!-- PAGE: REPORT -->
+    <div class="page" id="page-report">
+        <div class="report-section">
+            <h2>📊 Weekly Report</h2>
+            <div class="report-grid">
+                <div class="report-card"><div class="num" id="rTotal">0</div><div class="label">Total</div></div>
+                <div class="report-card"><div class="num" id="rDone">0</div><div class="label">✅ Done</div></div>
+                <div class="report-card"><div class="num" id="rFailed">0</div><div class="label">❌ Missed</div></div>
+                <div class="report-card"><div class="num" id="rPoints">0</div><div class="label">⭐ Points</div></div>
+                <div class="report-card"><div class="num" id="rPercent">0%</div><div class="label">Success %</div></div>
+            </div>
+            <div class="experience-box">
+                <h4>📝 Experience this week?</h4>
+                <textarea id="experienceInput" placeholder="Kaisa raha experience? Kya seekha?..."></textarea>
+                <button id="saveExperienceBtn">💾 Save</button>
+                <div id="savedExperience"></div>
+            </div>
+        </div>
+        <div class="action-bar">
+            <button id="exportReportBtn">📥 Export Report</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+    let state = {
+        tasks: {},
+        experience: {},
+        currentDate: new Date(),
+        user: null
+    };
+
+    const STORAGE_KEY = 'daily_planner_bw_v2';
+    const PRIORITY_POINTS = { low: 5, medium: 10, high: 20 };
+
+    const $ = (id) => document.getElementById(id);
+
+    function formatDate(d) {
+        const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), day = String(d.getDate()).padStart(2,'0');
+        return `${y}-${m}-${day}`;
+    }
+    function displayDate(d) {
+        return d.toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    function dateStr(d) { return formatDate(d); }
+    function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
+
+    function getWeekId(d) {
+        const dt = new Date(d);
+        const day = dt.getDay();
+        const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(dt.setDate(diff));
+        return formatDate(monday);
+    }
+    function getWeekRange(d) {
+        const dt = new Date(d);
+        const day = dt.getDay();
+        const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(dt.setDate(diff));
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate()+6);
+        return `${monday.getDate()}/${monday.getMonth()+1}-${sunday.getDate()}/${sunday.getMonth()+1}`;
+    }
+
+    function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+    function loadState() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) { try { state = JSON.parse(raw); } catch(e) {} }
+        if (!state.tasks) state.tasks = {};
+        if (!state.experience) state.experience = {};
+        if (!state.currentDate) state.currentDate = new Date();
+    }
+
+    function showToast(msg, color='#fff') {
+        const t = $('toast');
+        t.textContent = msg;
+        t.style.borderColor = color;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function requestNotifPermission() {
+        if (!('Notification' in window)) return;
+        if (Notification.permission === 'default') Notification.requestPermission();
+    }
+    function sendNotification(title, body) {
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+        new Notification(title, { body, icon: 'icon-192.png' });
+    }
+
+    let notifiedTasks = new Set();
+    function startAlarmChecker() {
+        setInterval(() => {
+            const today = dateStr(state.currentDate);
+            const tasks = state.tasks[today] || [];
+            const now = new Date();
+            const ct = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            tasks.forEach(t => {
+                if (t.status !== 'pending' || notifiedTasks.has(t.id)) return;
+                if (t.time === ct) {
+                    sendNotification('⏰ Alarm!', `"${t.text}" abhi karna hai!`);
+                    showToast(`🔔 "${t.text}" ka time!`);
+                    notifiedTasks.add(t.id);
+                }
+            });
+        }, 30000);
+    }
+    function scheduleAlarmCheck() {
+        const today = dateStr(state.currentDate);
+        const tasks = state.tasks[today] || [];
+        notifiedTasks = new Set(tasks.filter(t => t.status !== 'pending').map(t => t.id));
+    }
+
+    function render() {
+        const today = dateStr(state.currentDate);
+        const tasks = state.tasks[today] || [];
+        const weekId = getWeekId(state.currentDate);
+
+        $('currentDateDisplay').textContent = displayDate(state.currentDate);
+        $('weekRange').textContent = getWeekRange(state.currentDate);
+
+        let totalPoints = 0, doneCount = 0;
+        Object.values(state.tasks).forEach(dayTasks => {
+            dayTasks.forEach(t => {
+                if (t.status === 'done') { totalPoints += t.points; doneCount++; }
+            });
+        });
+        $('totalPoints').textContent = totalPoints;
+        $('doneCount').textContent = doneCount;
+
+        if (tasks.length === 0) {
+            $('taskList').innerHTML = `<p style="color:var(--text3);padding:20px;text-align:center;">Aaj koi task nahi hai. +Add se kuch daalein! 🧮</p>`;
+        } else {
+            $('taskList').innerHTML = tasks.map(t => {
+                const cls = t.status === 'done' ? 'done' : t.status === 'failed' ? 'failed' : '';
+                const actions = t.status === 'pending' ? `
+                    <button class="btn-done" onclick="markDone('${t.id}')" title="Done">✅</button>
+                    <button class="btn-fail" onclick="markFailed('${t.id}')" title="Miss">❌</button>
+                ` : '';
+                return `
+                    <div class="task-item ${cls}" data-id="${t.id}">
+                        <div class="task-time">${t.time}</div>
+                        <div class="task-text">${esc(t.text)}</div>
+                        <div class="task-points">⭐${t.points}</div>
+                        <div class="task-actions">
+                            ${actions}
+                            <button onclick="deleteTask('${t.id}')" title="Delete">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        const hToday = state.tasks[today] || [];
+        const hDone = hToday.filter(t => t.status === 'done').length;
+        const hPoints = Object.values(state.tasks).flat().filter(t => t.status === 'done').reduce((s,t) => s + t.points, 0);
+        const allDone = Object.values(state.tasks).flat().filter(t => t.status === 'done').length;
+
+        let wTotal=0, wDone=0;
+        Object.entries(state.tasks).forEach(([ds, ts]) => {
+            const d = new Date(ds + 'T12:00:00');
+            if (getWeekId(d) === weekId) {
+                ts.forEach(t => { wTotal++; if(t.status==='done') wDone++; });
+            }
+        });
+        const pct = wTotal > 0 ? Math.round((wDone/wTotal)*100) : 0;
+
+        $('hTasks').textContent = hToday.length;
+        $('hDone').textContent = hDone;
+        $('hPoints').textContent = hPoints;
+        $('hStreak').textContent = pct + '%';
+        $('hTotalDone').textContent = allDone;
+
+        $('rTotal').textContent = wTotal;
+        $('rDone').textContent = wDone;
+        $('rFailed').textContent = wTotal - wDone;
+        let wPts = 0;
+        Object.entries(state.tasks).forEach(([ds, ts]) => {
+            if (getWeekId(new Date(ds+'T12:00:00')) === weekId) {
+                ts.forEach(t => { if(t.status==='done') wPts += t.points; });
+            }
+        });
+        $('rPoints').textContent = wPts;
+        $('rPercent').textContent = pct + '%';
+
+        const expKey = weekId + '_exp';
+        const savedExp = state.experience[expKey];
+        if (savedExp) {
+            $('savedExperience').style.display = 'block';
+            $('savedExperience').innerHTML = `📝 ${esc(savedExp)}`;
+            $('experienceInput').value = savedExp;
+        } else {
+            $('savedExperience').style.display = 'none';
+        }
+    }
+
+    function esc(t) {
+        const d = document.createElement('div');
+        d.textContent = t;
+        return d.innerHTML;
+    }
+
+    window.addTask = function() {
+        const text = $('taskInput').value.trim();
+        const time = $('timeInput').value;
+        const priority = $('prioritySelect').value;
+        if (!text) { showToast('❌ Task likhein!', 'var(--red)'); return; }
+        if (!time) { showToast('❌ Time select karein!', 'var(--red)'); return; }
+
+        const today = dateStr(state.currentDate);
+        if (!state.tasks[today]) state.tasks[today] = [];
+        const task = { id: generateId(), text, time, priority, status: 'pending', points: PRIORITY_POINTS[priority], date: today };
+        state.tasks[today].push(task);
+        state.tasks[today].sort((a,b) => a.time.localeCompare(b.time));
+        $('taskInput').value = '';
+        saveState(); render();
+        showToast(`✅ "${task.text}" added at ${time}`);
+        scheduleAlarmCheck();
+    };
+
+    window.markDone = function(id) {
+        const today = dateStr(state.currentDate);
+        const task = (state.tasks[today]||[]).find(t => t.id === id);
+        if (!task || task.status !== 'pending') return;
+        task.status = 'done';
+        saveState(); render();
+        showToast(`✅ "${task.text}" done! ⭐${task.points}pts`);
+    };
+
+    window.markFailed = function(id) {
+        const today = dateStr(state.currentDate);
+        const task = (state.tasks[today]||[]).find(t => t.id === id);
+        if (!task || task.status !== 'pending') return;
+        task.status = 'failed';
+        saveState(); render();
+        showToast(`❌ "${task.text}" missed.`, 'var(--red)');
+    };
+
+    window.deleteTask = function(id) {
+        const today = dateStr(state.currentDate);
+        const tasks = state.tasks[today] || [];
+        const idx = tasks.findIndex(t => t.id === id);
+        if (idx === -1) return;
+        const task = tasks[idx];
+        tasks.splice(idx, 1);
+        if (tasks.length === 0) delete state.tasks[today];
+        saveState(); render();
+        showToast(`🗑️ Deleted "${task.text}"`);
+    };
+
+    function prevDay() {
+        const d = new Date(state.currentDate);
+        d.setDate(d.getDate()-1);
+        state.currentDate = d;
+        scheduleAlarmCheck(); render();
+    }
+    function nextDay() {
+        const d = new Date(state.currentDate);
+        d.setDate(d.getDate()+1);
+        state.currentDate = d;
+        scheduleAlarmCheck(); render();
+    }
+
+    function switchTab(page) {
+        document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+        document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
+    }
+
+    function exportAll() {
+        const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `planner_${dateStr(new Date())}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('📥 Exported!');
+    }
+
+    function exportReport() {
+        const weekId = getWeekId(state.currentDate);
+        let wTotal=0, wDone=0, wPoints=0;
+        Object.entries(state.tasks).forEach(([ds, ts]) => {
+            if (getWeekId(new Date(ds+'T12:00:00')) === weekId) {
+                ts.forEach(t => { wTotal++; if(t.status==='done') { wDone++; wPoints += t.points; } });
+            }
+        });
+        const pct = wTotal > 0 ? Math.round((wDone/wTotal)*100) : 0;
+        const exp = state.experience[weekId+'_exp'] || 'N/A';
+        const report = {
+            week: getWeekRange(state.currentDate),
+            totalTasks: wTotal,
+            done: wDone,
+            missed: wTotal - wDone,
+            points: wPoints,
+            successPercent: pct + '%',
+            experience: exp,
+            exportedAt: new Date().toISOString()
+        };
+        const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `weekly_report_${weekId}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('📊 Report exported!');
+    }
+
+    function clearWeek() {
+        if (!confirm('Poora hafte ka data delete? Sure?')) return;
+        const weekId = getWeekId(state.currentDate);
+        Object.keys(state.tasks).forEach(k => {
+            if (getWeekId(new Date(k+'T12:00:00')) === weekId) delete state.tasks[k];
+        });
+        saveState(); render();
+        showToast('🗑️ Week cleared.');
+    }
+
+    function saveExperience() {
+        const text = $('experienceInput').value.trim();
+        if (!text) { showToast('❌ Kuch likhein!', 'var(--red)'); return; }
+        const weekId = getWeekId(state.currentDate);
+        state.experience[weekId+'_exp'] = text;
+        saveState(); render();
+        showToast('💾 Experience saved!');
+    }
+
+    function login() {
+        const name = $('loginName').value.trim();
+        const pass = $('loginPass').value.trim();
+        if (!name) { showToast('❌ Naam daalein!', 'var(--red)'); return; }
+        if (!pass) { showToast('❌ Password daalein!', 'var(--red)'); return; }
+
+        state.user = name;
+        saveState();
+
+        $('loginScreen').classList.add('hidden');
+        $('appMain').style.display = 'block';
+        $('userBadge').textContent = '👤 ' + name;
+        $('welcomeName').textContent = name;
+        showToast(`👋 Welcome, ${name}!`);
+        render();
+    }
+
+    function logout() {
+        state.user = null;
+        saveState();
+        $('loginScreen').classList.remove('hidden');
+        $('appMain').style.display = 'none';
+        $('loginName').value = '';
+        $('loginPass').value = '';
+        showToast('🚪 Logged out.');
+    }
+
+    function init() {
+        loadState();
+
+        if (state.user) {
+            $('loginScreen').classList.add('hidden');
+            $('appMain').style.display = 'block';
+            $('userBadge').textContent = '👤 ' + state.user;
+            $('welcomeName').textContent = state.user;
+        }
+
+        if (!state.tasks) state.tasks = {};
+        if (!state.experience) state.experience = {};
+
+        requestNotifPermission();
+
+        $('loginBtn').addEventListener('click', login);
+        $('loginPass').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
+        $('loginName').addEventListener('keypress', e => { if (e.key === 'Enter') $('loginPass').focus(); });
+        $('logoutBtn').addEventListener('click', logout);
+        $('addTaskBtn').addEventListener('click', addTask);
+        $('taskInput').addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
+        $('prevDay').addEventListener('click', prevDay);
+        $('nextDay').addEventListener('click', nextDay);
+
+        document.querySelectorAll('.nav-tabs button').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.page));
+        });
+
+        $('exportBtn').addEventListener('click', exportAll);
+        $('exportReportBtn').addEventListener('click', exportReport);
+        $('clearWeekBtn').addEventListener('click', clearWeek);
+        $('saveExperienceBtn').addEventListener('click', saveExperience);
+
+        window.addTask = addTask;
+        window.markDone = markDone;
+        window.markFailed = markFailed;
+        window.deleteTask = deleteTask;
+
+        scheduleAlarmCheck();
+        startAlarmChecker();
+        if (state.user) render();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
