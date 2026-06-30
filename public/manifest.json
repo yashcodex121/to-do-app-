@@ -1,11 +1,11 @@
 {
   "name": "Daily Planner Pro",
   "short_name": "Planner",
-  "description": "Apna daily kaam plan karein, points kamayein",
+  "description": "Apna daily kaam plan karein, points kamayein, streaks maintain karein",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#000000",
+  "background_color": "#101820",
+  "theme_color": "#101820",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2917/2917995.png",
