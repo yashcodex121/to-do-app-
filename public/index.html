@@ -5,27 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>📋 Daily Planner Pro</title>
     <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#101820" />
     <link rel="apple-touch-icon" href="icon-192.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #0a0a0a;
-            --surface: #111;
-            --surface2: #1a1a1a;
-            --surface3: #222;
-            --border: #333;
-            --text: #f0f0f0;
-            --text2: #999;
-            --text3: #666;
+            --bg: #101820;
+            --surface: #1a2a3a;
+            --surface2: #243447;
+            --surface3: #2d4a5e;
+            --border: #2a4050;
+            --text: #f0f4f8;
+            --text2: #8aa0b8;
+            --text3: #5a7a90;
             --accent: #fff;
             --green: #4ade80;
             --yellow: #facc15;
             --red: #f87171;
-            --radius: 14px;
-            --shadow: 0 4px 20px rgba(0,0,0,0.6);
+            --blue: #60a5fa;
+            --purple: #a78bfa;
+            --orange: #fb923c;
+            --radius: 16px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
         }
 
         body {
@@ -33,33 +36,13 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            max-width: 430px;
+            margin: 0 auto;
             position: relative;
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-image: 
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' opacity='0.04'%3E%3Ctext x='20' y='40' font-size='28' fill='white' font-family='serif'%3E∑%3C/text%3E%3Ctext x='180' y='80' font-size='24' fill='white'%3E∫%3C/text%3E%3Ctext x='300' y='150' font-size='36' fill='white'%3E√%3C/text%3E%3Ctext x='50' y='200' font-size='20' fill='white'%3Eπ%3C/text%3E%3Ctext x='250' y='280' font-size='30' fill='white'%3E∞%3C/text%3E%3Ctext x='100' y='350' font-size='26' fill='white'%3Eθ%3C/text%3E%3Ctext x='350' y='40' font-size='22' fill='white'%3EΔ%3C/text%3E%3Ctext x='30' y='120' font-size='18' fill='white'%3E∂%3C/text%3E%3Ctext x='320' y='220' font-size='32' fill='white'%3E∏%3C/text%3E%3Ctext x='150' y='320' font-size='20' fill='white'%3Eλ%3C/text%3E%3Ctext x='280' y='370' font-size='24' fill='white'%3EΦ%3C/text%3E%3Ctext x='380' y='300' font-size='18' fill='white'%3E≈%3C/text%3E%3Ctext x='70' y='270' font-size='16' fill='white'%3E≠%3C/text%3E%3Ctext x='200' y='180' font-size='22' fill='white'%3Eα%3C/text%3E%3Ctext x='360' y='100' font-size='20' fill='white'%3Eβ%3C/text%3E%3C/svg%3E"),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.03'%3E%3Ctext x='10' y='30' font-size='16' fill='white' font-family='serif'%3E( + )²%3C/text%3E%3Ctext x='120' y='70' font-size='14' fill='white'%3Ex²+y²%3C/text%3E%3Ctext x='30' y='120' font-size='18' fill='white'%3E½%3C/text%3E%3Ctext x='140' y='160' font-size='16' fill='white'%3Elog₂%3C/text%3E%3Ctext x='60' y='190' font-size='14' fill='white'%3Esinθ%3C/text%3E%3C/svg%3E"),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' opacity='0.025'%3E%3Ctext x='0' y='20' font-size='14' fill='white'%3Ea²b²%3C/text%3E%3Ctext x='80' y='60' font-size='16' fill='white'%3E∛%3C/text%3E%3Ctext x='20' y='100' font-size='12' fill='white'%3E∑x%3C/text%3E%3Ctext x='90' y='140' font-size='14' fill='white'%3Edy/dx%3C/text%3E%3C/svg%3E");
-            background-repeat: repeat, repeat, repeat;
-            background-size: 400px 400px, 200px 200px, 150px 150px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
+        /* ===== LOGIN SCREEN ===== */
         #loginScreen {
             position: fixed;
             inset: 0;
@@ -67,7 +50,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 200;
             transition: opacity 0.5s ease;
         }
         #loginScreen.hidden {
@@ -77,574 +60,780 @@
         .login-box {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 48px 40px;
-            width: 90%;
-            max-width: 420px;
+            border-radius: 20px;
+            padding: 44px 36px;
+            width: 92%;
+            max-width: 380px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             text-align: center;
+            position: relative;
         }
+        .login-box .logo-big { font-size: 2.8rem; margin-bottom: 8px; }
         .login-box h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 6px;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.1);
         }
         .login-box .sub {
             color: var(--text2);
-            margin-bottom: 32px;
-            font-size: 0.95rem;
+            margin-bottom: 28px;
+            font-size: 0.85rem;
         }
         .login-box input {
             width: 100%;
             padding: 14px 18px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             background: var(--surface2);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text);
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
             transition: 0.2s;
         }
         .login-box input:focus { border-color: var(--text2); }
         .login-box button {
             width: 100%;
-            padding: 14px;
-            background: var(--accent);
-            color: #000;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
             font-weight: 700;
             font-size: 1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: 0.2s;
             margin-top: 6px;
         }
         .login-box button:hover {
-            background: #ccc;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(96,165,250,0.3);
         }
-        .login-box .login-maths {
-            font-size: 1.8rem;
-            letter-spacing: 4px;
+
+        /* ===== MAIN APP ===== */
+        .app-container {
+            padding: 0 0 80px 0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== TOP HEADER ===== */
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 20px 12px;
+        }
+        .top-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .back-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .back-icon:hover { background: var(--surface2); }
+        .header-greeting h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        .header-greeting .greeting-sub {
+            font-size: 0.7rem;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .notif-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+        }
+        .notif-icon:hover { background: var(--surface2); }
+        .notif-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: var(--red);
+            color: #fff;
+            font-size: 0.55rem;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 20px;
+            min-width: 18px;
+            border: 2px solid var(--bg);
+        }
+        .header-date {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text2);
+            margin-top: 2px;
+        }
+        .header-date .day { font-weight: 700; color: var(--text); }
+
+        /* ===== QUOTE CARD ===== */
+        .quote-card {
+            margin: 4px 20px 16px;
+            background: linear-gradient(135deg, var(--surface), var(--surface2));
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 8px;
+            font-size: 5rem;
             color: var(--text3);
+            opacity: 0.2;
+            font-family: serif;
+        }
+        .quote-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text2);
+            margin-bottom: 4px;
+        }
+        .quote-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+        .quote-author {
+            font-size: 0.7rem;
+            color: var(--text3);
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        /* ===== STATS GRID (2×2) ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px;
             margin-bottom: 16px;
         }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 28px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 18px 24px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .header-left h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        .header-left .user-badge {
-            background: var(--surface3);
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            color: var(--text2);
-            border: 1px solid var(--border);
-        }
-        .header-stats {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
         .stat-card {
-            background: var(--surface2);
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            border: 1px solid var(--border);
-        }
-        .stat-card span { color: var(--accent); }
-        .stat-card.green span { color: var(--green); }
-        .header button.logout-btn {
-            background: var(--surface3);
-            border: 1px solid var(--border);
-            color: var(--text2);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .header button.logout-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
-
-        .nav-tabs {
-            display: flex;
-            gap: 4px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 6px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
-        }
-        .nav-tabs button {
-            flex: 1;
-            padding: 12px 20px;
-            background: transparent;
-            border: none;
-            border-radius: 10px;
-            color: var(--text2);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .nav-tabs button.active {
-            background: var(--surface2);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-        .nav-tabs button:hover:not(.active) { color: var(--text); }
-
-        .page { display: none; }
-        .page.active { display: block; }
-
-        .home-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .home-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 28px 24px;
+            padding: 16px;
             text-align: center;
             box-shadow: var(--shadow);
             transition: 0.2s;
         }
-        .home-card:hover { transform: translateY(-2px); }
-        .home-card .icon {
-            font-size: 2.8rem;
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-card .stat-icon {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+        }
+        .stat-card .stat-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+        .stat-card .stat-label {
+            font-size: 0.7rem;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        .stat-card.total .stat-num { color: var(--blue); }
+        .stat-card.done .stat-num { color: var(--green); }
+        .stat-card.missed .stat-num { color: var(--red); }
+        .stat-card.points .stat-num { color: var(--yellow); }
+
+        /* ===== STREAK CARD ===== */
+        .streak-card {
+            margin: 0 20px 16px;
+            background: linear-gradient(135deg, var(--surface), #2a1a10);
+            border: 1px solid rgba(251,146,60,0.2);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .streak-fire {
+            font-size: 2.4rem;
+        }
+        .streak-info {
+            flex: 1;
+        }
+        .streak-info .streak-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .streak-info .streak-sub {
+            font-size: 0.7rem;
+            color: var(--text2);
+        }
+        .streak-dots {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .streak-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--surface3);
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+        .streak-dot.active {
+            background: var(--orange);
+            border-color: var(--orange);
+            box-shadow: 0 0 8px rgba(251,146,60,0.4);
+        }
+        .streak-dot.today {
+            background: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        /* ===== UPCOMING TASKS ===== */
+        .upcoming-section {
+            padding: 0 20px;
+            margin-bottom: 16px;
+        }
+        .upcoming-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 12px;
         }
-        .home-card .num {
-            font-size: 2.2rem;
-            font-weight: 800;
+        .upcoming-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
         }
-        .home-card .label {
-            color: var(--text2);
-            font-size: 0.9rem;
-            margin-top: 4px;
+        .upcoming-header .view-all {
+            font-size: 0.75rem;
+            color: var(--blue);
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
         }
-        .home-welcome {
+        .upcoming-header .view-all:hover { color: var(--text); }
+        .upcoming-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .upcoming-task {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow);
+            border-radius: 12px;
+            padding: 12px 14px;
+            transition: 0.2s;
         }
-        .home-welcome h2 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
+        .upcoming-task:hover { background: var(--surface2); }
+        .upcoming-task .ut-time {
+            background: var(--surface3);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text2);
+            min-width: 52px;
+            text-align: center;
         }
-        .home-welcome p { color: var(--text2); line-height: 1.6; }
+        .upcoming-task .ut-text {
+            flex: 1;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .upcoming-task .ut-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .ut-badge.high { background: rgba(248,113,113,0.2); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+        .ut-badge.medium { background: rgba(250,204,21,0.15); color: var(--yellow); border: 1px solid rgba(250,204,21,0.2); }
+        .ut-badge.low { background: rgba(96,165,250,0.15); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
+        .no-tasks-msg {
+            text-align: center;
+            color: var(--text3);
+            font-size: 0.85rem;
+            padding: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
 
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text3);
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .nav-item .nav-icon {
+            font-size: 1.3rem;
+            transition: 0.2s;
+        }
+        .nav-item.active {
+            color: var(--accent);
+        }
+        .nav-item.active .nav-icon {
+            transform: scale(1.1);
+        }
+        .nav-item:hover { color: var(--text2); }
+
+        /* ===== PAGES (Non-home) ===== */
+        .page-container {
+            padding: 20px;
+        }
+        .page-container h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+        .page-container.hidden { display: none; }
+
+        /* Planner page */
         .date-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 12px 20px;
+            padding: 12px 16px;
             border-radius: var(--radius);
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
+            margin-bottom: 16px;
         }
         .date-nav button {
             background: var(--surface2);
             border: 1px solid var(--border);
             color: var(--text);
-            font-size: 1.2rem;
-            width: 40px;
-            height: 40px;
+            font-size: 1rem;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             transition: 0.2s;
         }
         .date-nav button:hover { background: var(--surface3); }
-        .date-nav h2 { font-size: 1.1rem; font-weight: 600; }
+        .date-nav h3 { font-size: 0.95rem; font-weight: 600; }
 
-        .add-task {
+        .add-task-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-        .add-task input, .add-task select {
+        .add-task-row input, .add-task-row select {
             flex: 1;
-            min-width: 140px;
-            padding: 12px 16px;
+            min-width: 100px;
+            padding: 10px 12px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 10px;
             color: var(--text);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             outline: none;
-            transition: 0.2s;
         }
-        .add-task input:focus, .add-task select:focus { border-color: var(--text2); }
-        .add-task input[type="time"] { max-width: 130px; }
-        .add-task button {
-            padding: 12px 28px;
-            background: var(--accent);
-            color: #000;
+        .add-task-row input:focus, .add-task-row select:focus { border-color: var(--text2); }
+        .add-task-row input[type="time"] { max-width: 100px; }
+        .add-task-row button {
+            padding: 10px 20px;
+            background: var(--blue);
+            color: #fff;
             border: none;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: 0.2s;
             white-space: nowrap;
         }
-        .add-task button:hover { background: #ddd; }
 
-        .tasks-section {
+        .tasks-list {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 18px 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
+            padding: 14px 16px;
         }
-        .tasks-section h3 {
-            font-size: 1rem;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .tasks-list h4 {
+            font-size: 0.85rem;
             color: var(--text2);
+            margin-bottom: 10px;
         }
         .task-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
+            gap: 10px;
+            padding: 10px 12px;
             background: var(--surface2);
             border-radius: 10px;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-            border-left: 3px solid var(--accent);
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-16px); }
-            to { opacity: 1; transform: translateX(0); }
+            margin-bottom: 6px;
+            border-left: 3px solid var(--blue);
         }
         .task-item.done { border-left-color: var(--green); opacity: 0.6; }
-        .task-item.done .task-text { text-decoration: line-through; color: var(--text3); }
         .task-item.failed { border-left-color: var(--red); opacity: 0.5; }
-        .task-item.failed .task-text { text-decoration: line-through; color: var(--text3); }
+        .task-item.done .task-text { text-decoration: line-through; color: var(--text3); }
         .task-item .task-time {
             background: var(--surface3);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.65rem;
             font-weight: 600;
-            white-space: nowrap;
-            min-width: 60px;
+            min-width: 48px;
             text-align: center;
             color: var(--text2);
         }
-        .task-item .task-text { flex: 1; font-weight: 500; font-size: 0.95rem; }
-        .task-item .task-points {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 1px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text2);
+        .task-item .task-text { flex: 1; font-size: 0.85rem; font-weight: 500; }
+        .task-item .task-pts {
+            font-size: 0.65rem;
+            color: var(--text3);
         }
-        .task-actions {
+        .task-item .task-actions {
             display: flex;
-            gap: 4px;
+            gap: 2px;
         }
-        .task-actions button {
+        .task-item .task-actions button {
             background: none;
             border: none;
             color: var(--text3);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            padding: 2px 6px;
-            border-radius: 6px;
-            transition: 0.2s;
+            padding: 2px 4px;
+            border-radius: 4px;
         }
-        .task-actions button:hover { background: var(--surface3); }
-        .task-actions .btn-done { color: var(--green); }
-        .task-actions .btn-fail { color: var(--red); }
+        .task-item .task-actions button:hover { background: var(--surface3); }
+        .btn-done { color: var(--green) !important; }
+        .btn-fail { color: var(--red) !important; }
 
-        .report-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px 24px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-        }
-        .report-section h2 { font-size: 1.2rem; margin-bottom: 14px; }
+        /* Report page */
         .report-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 16px;
         }
         .report-card {
-            background: var(--surface2);
+            background: var(--surface);
             border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 14px;
-            border-radius: 10px;
             text-align: center;
         }
-        .report-card .num { font-size: 1.8rem; font-weight: 800; }
-        .report-card .label { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
-        .experience-box {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px;
-            margin-top: 12px;
-        }
-        .experience-box h4 { margin-bottom: 10px; font-size: 0.95rem; }
-        .experience-box textarea {
-            width: 100%;
-            padding: 10px 12px;
+        .report-card .r-num { font-size: 1.5rem; font-weight: 800; }
+        .report-card .r-label { font-size: 0.65rem; color: var(--text2); margin-top: 2px; }
+
+        .exp-box {
             background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+        }
+        .exp-box h4 { font-size: 0.85rem; margin-bottom: 8px; }
+        .exp-box textarea {
+            width: 100%;
+            padding: 10px;
+            background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: 8px;
             color: var(--text);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             resize: vertical;
-            min-height: 70px;
+            min-height: 60px;
             outline: none;
         }
-        .experience-box textarea:focus { border-color: var(--text2); }
-        .experience-box button {
-            margin-top: 10px;
-            padding: 8px 20px;
-            background: var(--accent);
-            color: #000;
+        .exp-box button {
+            margin-top: 8px;
+            padding: 8px 16px;
+            background: var(--blue);
+            color: #fff;
             border: none;
             border-radius: 8px;
             font-weight: 600;
+            font-size: 0.8rem;
             cursor: pointer;
         }
-        .experience-box button:hover { background: #ddd; }
-        #savedExperience {
-            margin-top: 10px;
-            padding: 10px 12px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: none;
-            font-size: 0.9rem;
-            color: var(--text2);
-        }
+        #savedExperience { margin-top: 8px; padding: 8px 10px; background: var(--surface2); border-radius: 8px; display: none; font-size: 0.8rem; }
 
         .action-bar {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
+            gap: 8px;
+            margin-top: 12px;
         }
         .action-bar button {
-            padding: 10px 22px;
-            background: var(--surface2);
+            padding: 8px 16px;
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text2);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            transition: 0.2s;
         }
-        .action-bar button:hover { background: var(--surface3); color: var(--text); }
+        .action-bar button:hover { background: var(--surface2); }
 
         .toast {
             position: fixed;
-            top: 24px;
-            right: 24px;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 14px 22px;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 12px;
             box-shadow: 0 8px 40px rgba(0,0,0,0.6);
             font-weight: 500;
-            font-size: 0.9rem;
-            transform: translateX(130%);
-            transition: transform 0.4s ease;
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: all 0.4s ease;
             z-index: 999;
+            white-space: nowrap;
         }
-        .toast.show { transform: translateX(0); }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
-        @media (max-width: 600px) {
-            .header { flex-direction: column; align-items: stretch; text-align: center; }
-            .header-left { justify-content: center; }
-            .header-stats { justify-content: center; }
-            .add-task input, .add-task select { min-width: 100%; }
-            .add-task input[type="time"] { max-width: 100%; }
-            .add-task button { width: 100%; }
-            .login-box { padding: 32px 24px; }
-            .nav-tabs button { font-size: 0.8rem; padding: 10px 8px; }
+        @media (max-width: 430px) {
+            .top-header { padding: 16px 16px 8px; }
+            .stats-grid { padding: 0 16px; }
+            .quote-card, .streak-card, .upcoming-section { margin-left: 16px; margin-right: 16px; }
+            .page-container { padding: 16px; }
+            .header-greeting h2 { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- ===== LOGIN ===== -->
 <div id="loginScreen">
     <div class="login-box">
-        <div class="login-maths">∑ ∫ √ π ∞</div>
-        <h1>📋 Planner</h1>
-        <div class="sub">Apna din plan karein, points kamayein</div>
-        <input type="text" id="loginName" placeholder="Apna naam likhein..." autocomplete="off" />
-        <input type="password" id="loginPass" placeholder="Password (kuch bhi daal sakte hain)" />
-        <button id="loginBtn">→ Login</button>
-        <p style="margin-top:16px;font-size:0.8rem;color:var(--text3);">π × r² = success 🔲</p>
+        <div class="logo-big">📋🔔</div>
+        <h1>Planner Pro</h1>
+        <div class="sub">Plan. Track. Achieve. ✨</div>
+        <input type="text" id="loginName" placeholder="Username ya Email" autocomplete="off" />
+        <input type="password" id="loginPass" placeholder="Password" />
+        <button id="loginBtn">→ Sign In</button>
     </div>
 </div>
 
-<!-- MAIN APP -->
-<div class="container" id="appMain" style="display:none;">
+<!-- ===== MAIN APP ===== -->
+<div id="appMain" style="display:none;">
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-left">
-            <h1>📋 Planner</h1>
-            <span class="user-badge" id="userBadge">👤 User</span>
+    <!-- HOME PAGE -->
+    <div id="page-home">
+        <div class="app-container">
+
+            <!-- TOP HEADER -->
+            <div class="top-header">
+                <div class="top-header-left">
+                    <div class="back-icon" id="backBtn">←</div>
+                    <div class="header-greeting">
+                        <h2 id="greetingDisplay">Good Morning, <span id="greetName">VIR</span>!</h2>
+                        <div class="greeting-sub" id="todayDateDisplay">Monday, 30 June</div>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div class="notif-icon" id="notifBtn">
+                        🔔
+                        <span class="notif-badge" id="notifBadge">3</span>
+                    </div>
+                    <div class="header-date" id="headerDateFull">30 June 2026</div>
+                </div>
+            </div>
+
+            <!-- QUOTE CARD -->
+            <div class="quote-card">
+                <div class="quote-title">✦ Daily Quote</div>
+                <div class="quote-text" id="dailyQuote">"Success is not final, failure is not fatal: it is the courage to continue that counts."</div>
+                <div class="quote-author" id="quoteAuthor">— Winston Churchill</div>
+            </div>
+
+            <!-- STATS GRID (2×2) -->
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-num" id="sTotalTasks">0</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-card done">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-num" id="sDoneToday">0</div>
+                    <div class="stat-label">Done Today</div>
+                </div>
+                <div class="stat-card missed">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-num" id="sMissedToday">0</div>
+                    <div class="stat-label">Missed Today</div>
+                </div>
+                <div class="stat-card points">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-num" id="sPoints">0</div>
+                    <div class="stat-label">Points</div>
+                </div>
+            </div>
+
+            <!-- STREAK CARD -->
+            <div class="streak-card">
+                <div class="streak-fire">🔥</div>
+                <div class="streak-info">
+                    <div class="streak-text"><span id="streakCount">0</span> Days Current Streak</div>
+                    <div class="streak-sub">Keep going! You're doing great 🚀</div>
+                    <div class="streak-dots" id="streakDots">
+                        <div class="streak-dot active"></div>
+                        <div class="streak-dot active"></div>
+                        <div class="streak-dot active"></div>
+                        <div class="streak-dot active"></div>
+                        <div class="streak-dot active"></div>
+                        <div class="streak-dot"></div>
+                        <div class="streak-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UPCOMING TASKS -->
+            <div class="upcoming-section">
+                <div class="upcoming-header">
+                    <h3>📌 Upcoming Tasks</h3>
+                    <span class="view-all" id="viewAllTasks">View All →</span>
+                </div>
+                <div class="upcoming-list" id="upcomingList">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
         </div>
-        <div class="header-stats">
-            <div class="stat-card">⭐ <span id="totalPoints">0</span></div>
-            <div class="stat-card green">✅ <span id="doneCount">0</span></div>
-            <div class="stat-card">📊 <span id="weekRange">-</span></div>
-            <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <button class="nav-item active" data-page="home">🏠<span>Home</span></button>
+            <button class="nav-item" data-page="planner">📋<span>Planner</span></button>
+            <button class="nav-item" data-page="calendar">📅<span>Calendar</span></button>
+            <button class="nav-item" data-page="report">📊<span>Analytics</span></button>
+            <button class="nav-item" data-page="profile">👤<span>Profile</span></button>
         </div>
     </div>
 
-    <!-- NAV TABS -->
-    <div class="nav-tabs">
-        <button class="active" data-page="home">🏠 Home</button>
-        <button data-page="planner">📋 Planner</button>
-        <button data-page="report">📊 Report</button>
-    </div>
-
-    <!-- PAGE: HOME -->
-    <div class="page active" id="page-home">
-        <div class="home-welcome" id="welcomeMsg">
-            <h2>👋 Welcome back, <span id="welcomeName">User</span>!</h2>
-            <p>Today is a new day — plan your tasks, earn points, and track your weekly progress. Maths is everywhere, even in productivity! 🧮</p>
-        </div>
-        <div class="home-grid">
-            <div class="home-card">
-                <div class="icon">📋</div>
-                <div class="num" id="hTasks">0</div>
-                <div class="label">Today's Tasks</div>
-            </div>
-            <div class="home-card">
-                <div class="icon">✅</div>
-                <div class="num" id="hDone">0</div>
-                <div class="label">Done Today</div>
-            </div>
-            <div class="home-card">
-                <div class="icon">⭐</div>
-                <div class="num" id="hPoints">0</div>
-                <div class="label">Total Points</div>
-            </div>
-            <div class="home-card">
-                <div class="icon">🔥</div>
-                <div class="num" id="hStreak">0%</div>
-                <div class="label">This Week Success</div>
-            </div>
-            <div class="home-card">
-                <div class="icon">🧮</div>
-                <div class="num" id="hMath" style="font-size:1.4rem;">∑√π</div>
-                <div class="label">Maths is Life</div>
-            </div>
-            <div class="home-card">
-                <div class="icon">📈</div>
-                <div class="num" id="hTotalDone">0</div>
-                <div class="label">All Time Completed</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: PLANNER -->
-    <div class="page" id="page-planner">
+    <!-- PLANNER PAGE -->
+    <div id="page-planner" class="page-container hidden">
+        <h2>📋 Planner</h2>
         <div class="date-nav">
             <button id="prevDay">◀</button>
-            <h2 id="currentDateDisplay"></h2>
+            <h3 id="currentDateDisplay"></h3>
             <button id="nextDay">▶</button>
         </div>
-
-        <div class="add-task">
-            <input type="text" id="taskInput" placeholder="Task likhein..." />
+        <div class="add-task-row">
+            <input type="text" id="taskInput" placeholder="Task..." />
             <input type="time" id="timeInput" value="09:00" />
             <select id="prioritySelect">
-                <option value="low">Low (5 pts)</option>
-                <option value="medium" selected>Medium (10 pts)</option>
-                <option value="high">High (20 pts)</option>
+                <option value="low">Low</option>
+                <option value="medium" selected>Med</option>
+                <option value="high">High</option>
             </select>
-            <button id="addTaskBtn">+ Add</button>
+            <button id="addTaskBtn">+</button>
         </div>
-
-        <div class="tasks-section">
-            <h3>📌 Aaj ke Tasks</h3>
+        <div class="tasks-list">
+            <h4>📌 Aaj ke Tasks</h4>
             <div id="taskList"></div>
         </div>
-
-        <div class="action-bar">
+        <div class="action-bar" style="justify-content:center;">
             <button id="exportBtn">📥 Export</button>
             <button id="clearWeekBtn">🗑️ Clear Week</button>
         </div>
     </div>
 
-    <!-- PAGE: REPORT -->
-    <div class="page" id="page-report">
-        <div class="report-section">
-            <h2>📊 Weekly Report</h2>
-            <div class="report-grid">
-                <div class="report-card"><div class="num" id="rTotal">0</div><div class="label">Total</div></div>
-                <div class="report-card"><div class="num" id="rDone">0</div><div class="label">✅ Done</div></div>
-                <div class="report-card"><div class="num" id="rFailed">0</div><div class="label">❌ Missed</div></div>
-                <div class="report-card"><div class="num" id="rPoints">0</div><div class="label">⭐ Points</div></div>
-                <div class="report-card"><div class="num" id="rPercent">0%</div><div class="label">Success %</div></div>
-            </div>
-            <div class="experience-box">
-                <h4>📝 Experience this week?</h4>
-                <textarea id="experienceInput" placeholder="Kaisa raha experience? Kya seekha?..."></textarea>
-                <button id="saveExperienceBtn">💾 Save</button>
-                <div id="savedExperience"></div>
-            </div>
+    <!-- CALENDAR PAGE (placeholder) -->
+    <div id="page-calendar" class="page-container hidden">
+        <h2>📅 Calendar</h2>
+        <p style="color:var(--text3);">Calendar view coming soon!</p>
+    </div>
+
+    <!-- REPORT / ANALYTICS PAGE -->
+    <div id="page-report" class="page-container hidden">
+        <h2>📊 Analytics</h2>
+        <div class="report-grid">
+            <div class="report-card"><div class="r-num" id="rTotal">0</div><div class="r-label">Total</div></div>
+            <div class="report-card"><div class="r-num" id="rDone">0</div><div class="r-label">✅ Done</div></div>
+            <div class="report-card"><div class="r-num" id="rFailed">0</div><div class="r-label">❌ Missed</div></div>
+            <div class="report-card"><div class="r-num" id="rPoints">0</div><div class="r-label">⭐ Points</div></div>
+            <div class="report-card"><div class="r-num" id="rPercent">0%</div><div class="r-label">Success %</div></div>
+            <div class="report-card"><div class="r-num" id="rStreak">0</div><div class="r-label">🔥 Streak</div></div>
         </div>
-        <div class="action-bar">
+        <div class="exp-box">
+            <h4>📝 Experience this week?</h4>
+            <textarea id="experienceInput" placeholder="Kaisa raha?..."></textarea>
+            <button id="saveExperienceBtn">💾 Save</button>
+            <div id="savedExperience"></div>
+        </div>
+        <div class="action-bar" style="justify-content:center;margin-top:12px;">
             <button id="exportReportBtn">📥 Export Report</button>
         </div>
+    </div>
+
+    <!-- PROFILE PAGE (placeholder) -->
+    <div id="page-profile" class="page-container hidden">
+        <h2>👤 Profile</h2>
+        <p style="color:var(--text3);">User: <strong id="profileName">VIR</strong></p>
+        <p style="color:var(--text3);margin-top:8px;">Total Points: <strong id="profilePoints">0</strong></p>
+        <button id="logoutFromProfile" style="margin-top:16px;padding:10px 24px;background:var(--red);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;">🚪 Logout</button>
     </div>
 </div>
 
@@ -658,18 +847,25 @@
         currentDate: new Date(),
         user: null
     };
-
-    const STORAGE_KEY = 'daily_planner_bw_v2';
+    const STORAGE_KEY = 'daily_planner_pro_v4';
     const PRIORITY_POINTS = { low: 5, medium: 10, high: 20 };
 
-    const $ = (id) => document.getElementById(id);
+    const $ = id => document.getElementById(id);
+
+    const quotes = [
+        { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+        { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+        { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+        { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+        { text: "In the middle of difficulty lies opportunity.", author: "Albert Einstein" },
+        { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
+        { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "Franklin D. Roosevelt" }
+    ];
 
     function formatDate(d) {
         const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), day = String(d.getDate()).padStart(2,'0');
         return `${y}-${m}-${day}`;
-    }
-    function displayDate(d) {
-        return d.toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
     function dateStr(d) { return formatDate(d); }
     function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
@@ -678,8 +874,7 @@
         const dt = new Date(d);
         const day = dt.getDay();
         const diff = dt.getDate() - day + (day === 0 ? -6 : 1);
-        const monday = new Date(dt.setDate(diff));
-        return formatDate(monday);
+        return formatDate(new Date(dt.setDate(diff)));
     }
     function getWeekRange(d) {
         const dt = new Date(d);
@@ -691,9 +886,7 @@
         return `${monday.getDate()}/${monday.getMonth()+1}-${sunday.getDate()}/${sunday.getMonth()+1}`;
     }
 
-    function saveState() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
     function loadState() {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) { try { state = JSON.parse(raw); } catch(e) {} }
@@ -716,7 +909,7 @@
     }
     function sendNotification(title, body) {
         if (!('Notification' in window) || Notification.permission !== 'granted') return;
-        new Notification(title, { body, icon: 'icon-192.png' });
+        new Notification(title, { body });
     }
 
     let notifiedTasks = new Set();
@@ -742,87 +935,143 @@
         notifiedTasks = new Set(tasks.filter(t => t.status !== 'pending').map(t => t.id));
     }
 
+    function getGreeting() {
+        const h = new Date().getHours();
+        if (h < 12) return 'Good Morning';
+        if (h < 17) return 'Good Afternoon';
+        if (h < 21) return 'Good Evening';
+        return 'Good Night';
+    }
+
+    function getDailyQuote() {
+        const day = new Date().getDate();
+        return quotes[day % quotes.length];
+    }
+
+    function calcStreak() {
+        let streak = 0;
+        const today = new Date();
+        for (let i = 0; i < 30; i++) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            const ds = formatDate(d);
+            const dayTasks = state.tasks[ds] || [];
+            const doneAny = dayTasks.some(t => t.status === 'done');
+            if (doneAny) streak++;
+            else if (i > 0) break;
+        }
+        return streak;
+    }
+
     function render() {
         const today = dateStr(state.currentDate);
         const tasks = state.tasks[today] || [];
         const weekId = getWeekId(state.currentDate);
 
-        $('currentDateDisplay').textContent = displayDate(state.currentDate);
-        $('weekRange').textContent = getWeekRange(state.currentDate);
+        // Date display
+        const now = new Date();
+        const opts = { weekday: 'long', month: 'long', day: 'numeric' };
+        $('todayDateDisplay').textContent = now.toLocaleDateString('en-US', opts);
+        $('headerDateFull').textContent = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        let totalPoints = 0, doneCount = 0;
-        Object.values(state.tasks).forEach(dayTasks => {
-            dayTasks.forEach(t => {
-                if (t.status === 'done') { totalPoints += t.points; doneCount++; }
-            });
+        // Greeting
+        const name = state.user || 'User';
+        $('greetingDisplay').innerHTML = `${getGreeting()}, <span id="greetName">${name}</span>!`;
+        $('greetName').textContent = name;
+
+        // Quote
+        const q = getDailyQuote();
+        $('dailyQuote').textContent = `"${q.text}"`;
+        $('quoteAuthor').textContent = `— ${q.author}`;
+
+        // Stats
+        const total = tasks.length;
+        const doneToday = tasks.filter(t => t.status === 'done').length;
+        const missedToday = tasks.filter(t => t.status === 'failed').length;
+        let totalPoints = 0;
+        Object.values(state.tasks).forEach(dt => dt.forEach(t => { if (t.status === 'done') totalPoints += t.points; }));
+        $('sTotalTasks').textContent = total;
+        $('sDoneToday').textContent = doneToday;
+        $('sMissedToday').textContent = missedToday;
+        $('sPoints').textContent = totalPoints;
+
+        // Streak
+        const streak = calcStreak();
+        $('streakCount').textContent = streak;
+        const dots = document.querySelectorAll('.streak-dot');
+        dots.forEach((d, i) => {
+            d.classList.toggle('active', i < Math.min(streak, 7));
+            d.classList.toggle('today', i === 0 && streak > 0);
         });
-        $('totalPoints').textContent = totalPoints;
-        $('doneCount').textContent = doneCount;
+
+        // Upcoming (pending tasks sorted by time)
+        const pending = tasks.filter(t => t.status === 'pending').sort((a,b) => a.time.localeCompare(b.time));
+        if (pending.length === 0) {
+            $('upcomingList').innerHTML = `<div class="no-tasks-msg">🎉 No upcoming tasks! Add some tasks in Planner.</div>`;
+        } else {
+            $('upcomingList').innerHTML = pending.slice(0, 3).map(t => `
+                <div class="upcoming-task">
+                    <div class="ut-time">${t.time}</div>
+                    <div class="ut-text">${esc(t.text)}</div>
+                    <div class="ut-badge ${t.priority}">${t.priority}</div>
+                </div>
+            `).join('');
+        }
+
+        // Planner page
+        $('currentDateDisplay').textContent = state.currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
         if (tasks.length === 0) {
-            $('taskList').innerHTML = `<p style="color:var(--text3);padding:20px;text-align:center;">Aaj koi task nahi hai. +Add se kuch daalein! 🧮</p>`;
+            $('taskList').innerHTML = `<p style="color:var(--text3);padding:14px;text-align:center;">No tasks today.</p>`;
         } else {
             $('taskList').innerHTML = tasks.map(t => {
                 const cls = t.status === 'done' ? 'done' : t.status === 'failed' ? 'failed' : '';
                 const actions = t.status === 'pending' ? `
-                    <button class="btn-done" onclick="markDone('${t.id}')" title="Done">✅</button>
-                    <button class="btn-fail" onclick="markFailed('${t.id}')" title="Miss">❌</button>
+                    <button class="btn-done" onclick="markDone('${t.id}')">✅</button>
+                    <button class="btn-fail" onclick="markFailed('${t.id}')">❌</button>
                 ` : '';
                 return `
-                    <div class="task-item ${cls}" data-id="${t.id}">
+                    <div class="task-item ${cls}">
                         <div class="task-time">${t.time}</div>
                         <div class="task-text">${esc(t.text)}</div>
-                        <div class="task-points">⭐${t.points}</div>
+                        <div class="task-pts">⭐${t.points}</div>
                         <div class="task-actions">
                             ${actions}
-                            <button onclick="deleteTask('${t.id}')" title="Delete">🗑️</button>
+                            <button onclick="deleteTask('${t.id}')">🗑️</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        const hToday = state.tasks[today] || [];
-        const hDone = hToday.filter(t => t.status === 'done').length;
-        const hPoints = Object.values(state.tasks).flat().filter(t => t.status === 'done').reduce((s,t) => s + t.points, 0);
-        const allDone = Object.values(state.tasks).flat().filter(t => t.status === 'done').length;
-
-        let wTotal=0, wDone=0;
-        Object.entries(state.tasks).forEach(([ds, ts]) => {
-            const d = new Date(ds + 'T12:00:00');
-            if (getWeekId(d) === weekId) {
-                ts.forEach(t => { wTotal++; if(t.status==='done') wDone++; });
-            }
-        });
-        const pct = wTotal > 0 ? Math.round((wDone/wTotal)*100) : 0;
-
-        $('hTasks').textContent = hToday.length;
-        $('hDone').textContent = hDone;
-        $('hPoints').textContent = hPoints;
-        $('hStreak').textContent = pct + '%';
-        $('hTotalDone').textContent = allDone;
-
-        $('rTotal').textContent = wTotal;
-        $('rDone').textContent = wDone;
-        $('rFailed').textContent = wTotal - wDone;
-        let wPts = 0;
+        // Report
+        let wTot=0, wD=0, wPts=0;
         Object.entries(state.tasks).forEach(([ds, ts]) => {
             if (getWeekId(new Date(ds+'T12:00:00')) === weekId) {
-                ts.forEach(t => { if(t.status==='done') wPts += t.points; });
+                ts.forEach(t => { wTot++; if(t.status==='done') { wD++; wPts += t.points; } });
             }
         });
+        const pct = wTot > 0 ? Math.round((wD/wTot)*100) : 0;
+        $('rTotal').textContent = wTot;
+        $('rDone').textContent = wD;
+        $('rFailed').textContent = wTot - wD;
         $('rPoints').textContent = wPts;
         $('rPercent').textContent = pct + '%';
+        $('rStreak').textContent = streak;
 
+        // Experience
         const expKey = weekId + '_exp';
-        const savedExp = state.experience[expKey];
-        if (savedExp) {
+        if (state.experience[expKey]) {
             $('savedExperience').style.display = 'block';
-            $('savedExperience').innerHTML = `📝 ${esc(savedExp)}`;
-            $('experienceInput').value = savedExp;
+            $('savedExperience').innerHTML = `📝 ${esc(state.experience[expKey])}`;
+            $('experienceInput').value = state.experience[expKey];
         } else {
             $('savedExperience').style.display = 'none';
         }
+
+        // Profile
+        $('profileName').textContent = state.user || 'User';
+        $('profilePoints').textContent = totalPoints;
     }
 
     function esc(t) {
@@ -835,9 +1084,7 @@
         const text = $('taskInput').value.trim();
         const time = $('timeInput').value;
         const priority = $('prioritySelect').value;
-        if (!text) { showToast('❌ Task likhein!', 'var(--red)'); return; }
-        if (!time) { showToast('❌ Time select karein!', 'var(--red)'); return; }
-
+        if (!text || !time) { showToast('❌ Task aur time daalein!', 'var(--red)'); return; }
         const today = dateStr(state.currentDate);
         if (!state.tasks[today]) state.tasks[today] = [];
         const task = { id: generateId(), text, time, priority, status: 'pending', points: PRIORITY_POINTS[priority], date: today };
@@ -845,10 +1092,9 @@
         state.tasks[today].sort((a,b) => a.time.localeCompare(b.time));
         $('taskInput').value = '';
         saveState(); render();
-        showToast(`✅ "${task.text}" added at ${time}`);
+        showToast(`✅ "${task.text}" added`);
         scheduleAlarmCheck();
     };
-
     window.markDone = function(id) {
         const today = dateStr(state.currentDate);
         const task = (state.tasks[today]||[]).find(t => t.id === id);
@@ -857,121 +1103,49 @@
         saveState(); render();
         showToast(`✅ "${task.text}" done! ⭐${task.points}pts`);
     };
-
     window.markFailed = function(id) {
         const today = dateStr(state.currentDate);
         const task = (state.tasks[today]||[]).find(t => t.id === id);
         if (!task || task.status !== 'pending') return;
         task.status = 'failed';
         saveState(); render();
-        showToast(`❌ "${task.text}" missed.`, 'var(--red)');
+        showToast(`❌ "${task.text}" missed`, 'var(--red)');
     };
-
     window.deleteTask = function(id) {
         const today = dateStr(state.currentDate);
         const tasks = state.tasks[today] || [];
         const idx = tasks.findIndex(t => t.id === id);
         if (idx === -1) return;
-        const task = tasks[idx];
         tasks.splice(idx, 1);
         if (tasks.length === 0) delete state.tasks[today];
         saveState(); render();
-        showToast(`🗑️ Deleted "${task.text}"`);
+        showToast('🗑️ Deleted');
     };
 
-    function prevDay() {
-        const d = new Date(state.currentDate);
-        d.setDate(d.getDate()-1);
-        state.currentDate = d;
-        scheduleAlarmCheck(); render();
-    }
-    function nextDay() {
-        const d = new Date(state.currentDate);
-        d.setDate(d.getDate()+1);
-        state.currentDate = d;
-        scheduleAlarmCheck(); render();
-    }
-
-    function switchTab(page) {
-        document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
-        document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
-    }
-
-    function exportAll() {
-        const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `planner_${dateStr(new Date())}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('📥 Exported!');
-    }
-
-    function exportReport() {
-        const weekId = getWeekId(state.currentDate);
-        let wTotal=0, wDone=0, wPoints=0;
-        Object.entries(state.tasks).forEach(([ds, ts]) => {
-            if (getWeekId(new Date(ds+'T12:00:00')) === weekId) {
-                ts.forEach(t => { wTotal++; if(t.status==='done') { wDone++; wPoints += t.points; } });
-            }
+    function switchPage(page) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === page));
+        ['home','planner','calendar','report','profile'].forEach(p => {
+            const el = document.getElementById(`page-${p}`);
+            if (el) el.classList.toggle('hidden', p !== page);
         });
-        const pct = wTotal > 0 ? Math.round((wDone/wTotal)*100) : 0;
-        const exp = state.experience[weekId+'_exp'] || 'N/A';
-        const report = {
-            week: getWeekRange(state.currentDate),
-            totalTasks: wTotal,
-            done: wDone,
-            missed: wTotal - wDone,
-            points: wPoints,
-            successPercent: pct + '%',
-            experience: exp,
-            exportedAt: new Date().toISOString()
-        };
-        const blob = new Blob([JSON.stringify(report, null, 2)], {type:'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `weekly_report_${weekId}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('📊 Report exported!');
-    }
-
-    function clearWeek() {
-        if (!confirm('Poora hafte ka data delete? Sure?')) return;
-        const weekId = getWeekId(state.currentDate);
-        Object.keys(state.tasks).forEach(k => {
-            if (getWeekId(new Date(k+'T12:00:00')) === weekId) delete state.tasks[k];
-        });
-        saveState(); render();
-        showToast('🗑️ Week cleared.');
-    }
-
-    function saveExperience() {
-        const text = $('experienceInput').value.trim();
-        if (!text) { showToast('❌ Kuch likhein!', 'var(--red)'); return; }
-        const weekId = getWeekId(state.currentDate);
-        state.experience[weekId+'_exp'] = text;
-        saveState(); render();
-        showToast('💾 Experience saved!');
+        // Home page ka app-container visible rakhna hai
+        if (page === 'home') {
+            document.querySelector('.app-container').style.display = 'block';
+        } else {
+            document.querySelector('.app-container').style.display = 'none';
+        }
     }
 
     function login() {
         const name = $('loginName').value.trim();
         const pass = $('loginPass').value.trim();
-        if (!name) { showToast('❌ Naam daalein!', 'var(--red)'); return; }
-        if (!pass) { showToast('❌ Password daalein!', 'var(--red)'); return; }
-
+        if (!name || !pass) { showToast('❌ Sab fields bharein!', 'var(--red)'); return; }
         state.user = name;
         saveState();
-
         $('loginScreen').classList.add('hidden');
         $('appMain').style.display = 'block';
-        $('userBadge').textContent = '👤 ' + name;
-        $('welcomeName').textContent = name;
-        showToast(`👋 Welcome, ${name}!`);
         render();
+        showToast(`👋 Welcome, ${name}!`);
     }
 
     function logout() {
@@ -979,43 +1153,109 @@
         saveState();
         $('loginScreen').classList.remove('hidden');
         $('appMain').style.display = 'none';
-        $('loginName').value = '';
-        $('loginPass').value = '';
-        showToast('🚪 Logged out.');
+        showToast('🚪 Logged out');
     }
 
     function init() {
         loadState();
-
         if (state.user) {
             $('loginScreen').classList.add('hidden');
             $('appMain').style.display = 'block';
-            $('userBadge').textContent = '👤 ' + state.user;
-            $('welcomeName').textContent = state.user;
         }
-
         if (!state.tasks) state.tasks = {};
         if (!state.experience) state.experience = {};
 
         requestNotifPermission();
 
+        // Login
         $('loginBtn').addEventListener('click', login);
         $('loginPass').addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
-        $('loginName').addEventListener('keypress', e => { if (e.key === 'Enter') $('loginPass').focus(); });
-        $('logoutBtn').addEventListener('click', logout);
-        $('addTaskBtn').addEventListener('click', addTask);
-        $('taskInput').addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
-        $('prevDay').addEventListener('click', prevDay);
-        $('nextDay').addEventListener('click', nextDay);
 
-        document.querySelectorAll('.nav-tabs button').forEach(btn => {
-            btn.addEventListener('click', () => switchTab(btn.dataset.page));
+        // Nav
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.addEventListener('click', () => switchPage(btn.dataset.page));
         });
 
-        $('exportBtn').addEventListener('click', exportAll);
-        $('exportReportBtn').addEventListener('click', exportReport);
-        $('clearWeekBtn').addEventListener('click', clearWeek);
-        $('saveExperienceBtn').addEventListener('click', saveExperience);
+        // Planner
+        $('addTaskBtn').addEventListener('click', addTask);
+        $('taskInput').addEventListener('keypress', e => { if (e.key === 'Enter') addTask(); });
+        $('prevDay').addEventListener('click', () => {
+            const d = new Date(state.currentDate);
+            d.setDate(d.getDate()-1);
+            state.currentDate = d;
+            scheduleAlarmCheck(); render();
+        });
+        $('nextDay').addEventListener('click', () => {
+            const d = new Date(state.currentDate);
+            d.setDate(d.getDate()+1);
+            state.currentDate = d;
+            scheduleAlarmCheck(); render();
+        });
+
+        // Actions
+        $('exportBtn').addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `planner_${dateStr(new Date())}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📥 Exported');
+        });
+        $('clearWeekBtn').addEventListener('click', () => {
+            if (!confirm('Delete this week?')) return;
+            const weekId = getWeekId(state.currentDate);
+            Object.keys(state.tasks).forEach(k => {
+                if (getWeekId(new Date(k+'T12:00:00')) === weekId) delete state.tasks[k];
+            });
+            saveState(); render();
+            showToast('🗑️ Week cleared');
+        });
+        $('saveExperienceBtn').addEventListener('click', () => {
+            const text = $('experienceInput').value.trim();
+            if (!text) { showToast('❌ Kuch likhein!', 'var(--red)'); return; }
+            state.experience[getWeekId(state.currentDate)+'_exp'] = text;
+            saveState(); render();
+            showToast('💾 Saved');
+        });
+        $('exportReportBtn').addEventListener('click', () => {
+            const weekId = getWeekId(state.currentDate);
+            let wTot=0, wD=0, wPt=0;
+            Object.entries(state.tasks).forEach(([ds, ts]) => {
+                if (getWeekId(new Date(ds+'T12:00:00')) === weekId) {
+                    ts.forEach(t => { wTot++; if(t.status==='done') { wD++; wPt += t.points; } });
+                }
+            });
+            const report = {
+                week: getWeekRange(state.currentDate),
+                total: wTot, done: wD, missed: wTot - wD,
+                points: wPt, success: wTot > 0 ? Math.round((wD/wTot)*100)+'%' : '0%',
+                streak: calcStreak(),
+                experience: state.experience[weekId+'_exp'] || 'N/A'
+            };
+            const blob = new Blob([JSON.stringify(report,null,2)], {type:'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `report_${weekId}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📊 Report exported');
+        });
+
+        // Back button
+        $('backBtn').addEventListener('click', () => showToast('🏠 Already on Home'));
+
+        // View All
+        $('viewAllTasks').addEventListener('click', () => switchPage('planner'));
+
+        // Notification bell
+        $('notifBtn').addEventListener('click', () => showToast('🔔 No new notifications'));
+
+        // Logout from profile
+        $('logoutFromProfile').addEventListener('click', logout);
+        $('logoutBtn')?.addEventListener('click', logout);
 
         window.addTask = addTask;
         window.markDone = markDone;
